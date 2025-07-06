@@ -1,0 +1,39 @@
+# Xcode Build and User Data (Global'de olmayanlar)
+*.mode1v3
+*.mode2v3
+*.moved-aside
+*.pbxuser
+*.perspectivev3
+**/DerivedData/
+xcuserdata
+
+# CocoaPods Dependencies
+**/Pods/
+
+# Flutter iOS Specific Generated Files and Build Artifacts
+Flutter/App.framework
+Flutter/Flutter.framework
+Flutter/Generated.xcconfig
+Flutter/ephemeral/
+Flutter/app.flx
+Flutter/app.zip
+Flutter/flutter_assets/
+Flutter/flutter_export_environment.sh
+Runner/GeneratedPluginRegistrant.*
+
+# Miscellaneous / Project Specific
+**/dgph
+**/*sync/
+.sconsign.dblite
+.tags*
+**/.vagrant/
+**/.symlinks/
+profile
+**/.generated/
+ServiceDefinitions.json
+
+# Exceptions to above rules (Bu default Xcode ignore'larında gelen istisnalar, kalsınlar)
+!default.mode1v3
+!default.mode2v3
+!default.pbxuser
+!default.perspectivev3

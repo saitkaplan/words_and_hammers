@@ -1,0 +1,55 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# IntelliJ related
+*.ipr
+*.iws
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Flutter DevTools specific options
+devtools_options.yaml
+
+# IMPORTANT WARNING FOR THIS .gitignore CONTENT
+# I use a global.gitignore file in addition to the .gitignore files in the project.
+# This file is an ignore file for all projects in my computer.
+# Before publishing the project to GitHub, add the following lines to this file;
+#
+.DS_Store
+.idea/
+.vscode/
+build/
+.dart_tool/
+*.iml
+*.apk
+*.aab
+*.ipa
+*.app
+node_modules/
+.flutter-plugins
+*.env
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+.metadata
