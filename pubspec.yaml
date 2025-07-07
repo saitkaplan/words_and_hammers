@@ -1,5 +1,5 @@
 name: words_and_hammers
-description: "A new Flutter project."
+description: "A fast, fluid and immersive competitive word puzzle experience..."
 version: 1.0.0+1
 
 environment:
@@ -8,7 +8,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flame: ^1.13.1
   cupertino_icons: ^1.0.8
+  flutter_dotenv: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -17,3 +19,19 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    # Özel Dosyalar
+    - .env
+    # Oyun Görsel Assetleri
+    - assets/images/logos/wnh_logo.png
+    # Oyun Bölümleri
+    - assets/levels/level_1.json
+    - assets/levels/level_2.json
+    - assets/levels/level_3.json
+    - assets/levels/level_4.json
+    - assets/levels/level_5.json
+    - assets/levels/level_6.json
+    - assets/levels/level_7.json
+    - assets/levels/level_8.json
+    - assets/levels/level_9.json
+    - assets/levels/level_10.json
