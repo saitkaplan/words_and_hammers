@@ -25,7 +25,7 @@ This project is licensed under the [MIT License](./LICENSE).
 
 **Words & Hammers** is a **competitive word puzzle game** that blends quick thinking and vocabulary mastery.
 
-This repository contains the **Android-optimized version**.  
+This repository contains both of **Android** and **iOS** optimized version. 
 It is designed to run smoothly on a wide range of Android devices, offering:
 
 - 🧠 **Unique and hard word challenges**

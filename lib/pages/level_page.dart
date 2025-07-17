@@ -33,21 +33,21 @@ class _LevelPageState extends State<LevelPage> {
     // En Üst Level 1, en alt ise son level.
     // Genişlik çarpanı 0.7'i geçmemeli!
     _buttonPositions = [
-      Offset(width * 0.31, height * 0.05), // 1
-      Offset(width * 0.22, height * 0.15), // 2
-      Offset(width * 0.47, height * 0.25), // 3
-      Offset(width * 0.63, height * 0.35), // 4
-      Offset(width * 0.46, height * 0.45), // 5
-      Offset(width * 0.28, height * 0.55), // 6
-      Offset(width * 0.42, height * 0.65), // 7
-      Offset(width * 0.56, height * 0.75), // 8
-      Offset(width * 0.34, height * 0.85), // 9
-      Offset(width * 0.14, height * 0.95), // 10
-      Offset(width * 0.24, height * 1.05), // 11
-      Offset(width * 0.20, height * 1.15), // 12
-      Offset(width * 0.30, height * 1.25), // 13
-      Offset(width * 0.41, height * 1.35), // 14
-      Offset(width * 0.19, height * 1.45), // 15
+      Offset(width * 0.31, height * 0.05), // Eğitim 1
+      Offset(width * 0.22, height * 0.15), // Eğitim 2
+      Offset(width * 0.47, height * 0.25), // Eğitim 3
+      Offset(width * 0.63, height * 0.35), // 1
+      Offset(width * 0.46, height * 0.45), // 2
+      Offset(width * 0.28, height * 0.55), // 3
+      Offset(width * 0.42, height * 0.65), // 4
+      Offset(width * 0.56, height * 0.75), // 5
+      Offset(width * 0.34, height * 0.85), // 6
+      Offset(width * 0.14, height * 0.95), // 7
+      Offset(width * 0.24, height * 1.05), // 8
+      Offset(width * 0.20, height * 1.15), // 9
+      Offset(width * 0.30, height * 1.25), // 10
+      Offset(width * 0.41, height * 1.35), // 11
+      Offset(width * 0.19, height * 1.45), // 12
     ];
 
     if (_buttonPositions.isNotEmpty) {
@@ -60,6 +60,16 @@ class _LevelPageState extends State<LevelPage> {
 
     return List.generate(_buttonPositions.length, (index) {
       final levelNumber = index + 1;
+      String buttonLabel;
+      bool isTutorial = false;
+      int? realLevelIndex;
+      if (levelNumber <= 3) {
+        buttonLabel = 'Eğitim $levelNumber';
+        isTutorial = true;
+      } else {
+        realLevelIndex = levelNumber - 3;
+        buttonLabel = 'Bölüm $realLevelIndex';
+      }
       return Positioned(
         left: _buttonPositions[index].dx,
         top: _buttonPositions[index].dy,
@@ -67,8 +77,17 @@ class _LevelPageState extends State<LevelPage> {
           onTap: () async {
             final result = await Navigator.of(context).push<int>(
               MaterialPageRoute(
-                builder: (_) =>
-                    GamePage(level: levelNumber, earnedPoint: earnedPoint),
+                builder: (_) => isTutorial
+                    ? GamePage(
+                        level: levelNumber,
+                        earnedPoint: earnedPoint,
+                        tutorialLevel: true,
+                        tutorialLevelIndex: levelNumber,
+                      )
+                    : GamePage(
+                        level: realLevelIndex!,
+                        earnedPoint: earnedPoint,
+                      ),
               ),
             );
             if (result != null) {
@@ -92,7 +111,7 @@ class _LevelPageState extends State<LevelPage> {
             ),
             child: Center(
               child: Text(
-                'Bölüm $levelNumber',
+                buttonLabel,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: width * 0.035,

@@ -13,27 +13,138 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
   int earnedPoint;
   final double statusBarHeight;
   final VoidCallback onLevelComplete;
+  final bool tutorialLevel;
+  final int? tutorialLevelIndex;
+  final VoidCallback? onTutorialAnimUpdate;
 
   MainGame({
     required this.level,
     required this.earnedPoint,
     required this.statusBarHeight,
     required this.onLevelComplete,
+    this.tutorialLevel = false,
+    this.tutorialLevelIndex,
+    this.onTutorialAnimUpdate,
   });
 
   final List<GridTile> tiles = [];
   final List<GridTile> selectedTiles = [];
   List<Word> validWords = [];
-
   late List<List<String>> grid;
   late double tileSize;
   late double spacing;
   late String levelName;
   late TextComponent levelTitleComponent;
   late final ScoreManager scoreManager;
-
   int shiftCounter = 0;
   HammerType selectedHammerType = HammerType.none;
+  int tutorialStep = 0;
+  int tutorialAnimIndex = 0;
+  bool isTutorialAnimating = false;
+  List<Vector2> tutorialPath = [];
+  Vector2? tutorialCurrentPosition;
+  Vector2? tutorialTargetPosition;
+  double tutorialAnimSpeed = 6.0;
+  List<Vector2> tutorialTrail = [];
+  bool tutorialLooping = true;
+  List<List<int>>? tutorialOriginalPath;
+
+  void startTutorialAnimation(List<List<int>> path) {
+    tutorialOriginalPath = path;
+    tutorialPath = path.map((p) => _tileCenterPosition(p[0], p[1])).toList();
+    tutorialAnimIndex = 0;
+    isTutorialAnimating = true;
+    tutorialTrail = [];
+    if (tutorialPath.isNotEmpty) {
+      tutorialCurrentPosition = tutorialPath.first.clone();
+      tutorialTargetPosition = tutorialPath.first.clone();
+      tutorialTrail.add(tutorialCurrentPosition!.clone());
+    }
+    if (onTutorialAnimUpdate != null) {
+      onTutorialAnimUpdate!();
+    }
+  }
+
+  void restartTutorialAnimation() {
+    if (tutorialOriginalPath != null) {
+      startTutorialAnimation(tutorialOriginalPath!);
+    }
+  }
+
+  void stopTutorialAnimation() {
+    tutorialLooping = false;
+    isTutorialAnimating = false;
+    if (onTutorialAnimUpdate != null) {
+      onTutorialAnimUpdate!();
+    }
+  }
+
+  // Griddeki Harflerin Koordinatının Bulunduğu Fonksiyon
+  Vector2 _tileCenterPosition(int row, int col) {
+    final int rowCount = grid.length;
+    final int colCount = grid[0].length;
+    final double gridMaxWidth = size.x * 0.8;
+    final double spacing = size.x * 0.015;
+    final double tileSize =
+        (gridMaxWidth - (spacing * (colCount - 1))) / colCount;
+    final double gridWidth = colCount * tileSize + (colCount - 1) * spacing;
+    final double gridHeight = rowCount * tileSize + (rowCount - 1) * spacing;
+    final Vector2 startPosition = Vector2(
+      (size.x - gridWidth) / 2,
+      size.y - gridHeight - size.y * 0.1,
+    );
+    return Vector2(
+      startPosition.x + col * (tileSize + spacing) + tileSize / 2,
+      startPosition.y + row * (tileSize + spacing) + tileSize / 2,
+    );
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (isTutorialAnimating &&
+        tutorialPath.isNotEmpty &&
+        tutorialAnimIndex < tutorialPath.length) {
+      if (tutorialCurrentPosition == null || tutorialTargetPosition == null) {
+        tutorialCurrentPosition = tutorialPath[tutorialAnimIndex].clone();
+        tutorialTargetPosition = tutorialPath[tutorialAnimIndex].clone();
+      }
+      final target = tutorialPath[tutorialAnimIndex];
+      final current = tutorialCurrentPosition!;
+      final toTarget = target - current;
+      final distance = toTarget.length;
+      final moveDist = tutorialAnimSpeed * dt * 60;
+      if (distance <= moveDist) {
+        tutorialCurrentPosition = target.clone();
+        tutorialTrail.add(tutorialCurrentPosition!.clone());
+        tutorialAnimIndex++;
+        if (tutorialAnimIndex < tutorialPath.length) {
+          tutorialTargetPosition = tutorialPath[tutorialAnimIndex].clone();
+        } else {
+          isTutorialAnimating = false;
+          if (onTutorialAnimUpdate != null) {
+            onTutorialAnimUpdate!();
+          }
+          if (tutorialLooping) {
+            Future.delayed(const Duration(seconds: 2), () {
+              if (tutorialLooping) {
+                restartTutorialAnimation();
+              }
+            });
+          }
+        }
+        if (onTutorialAnimUpdate != null) {
+          onTutorialAnimUpdate!();
+        }
+      } else {
+        tutorialCurrentPosition = current + toTarget.normalized() * moveDist;
+        tutorialTrail.add(tutorialCurrentPosition!.clone());
+        if (onTutorialAnimUpdate != null) {
+          onTutorialAnimUpdate!();
+        }
+      }
+    }
+  }
 
   // Flame yapılarının ilk kez çağrıldığı fonksiyon
   @override
@@ -54,7 +165,9 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
 
   Future<void> loadLevelData() async {
     final String data = await rootBundle.loadString(
-      'assets/levels/level_$level.json',
+      tutorialLevel
+          ? 'assets/levels/tutorial_level_${tutorialLevelIndex ?? 1}.json'
+          : 'assets/levels/level_$level.json',
     );
     final Map<String, dynamic> jsonData = json.decode(data);
     grid = List<List<String>>.from(

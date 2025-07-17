@@ -25,6 +25,9 @@ flutter:
     # Oyun Görsel Assetleri
     - assets/images/logos/wnh_logo.png
     # Oyun Bölümleri
+    - assets/levels/tutorial_level_1.json
+    - assets/levels/tutorial_level_2.json
+    - assets/levels/tutorial_level_3.json
     - assets/levels/level_1.json
     - assets/levels/level_2.json
     - assets/levels/level_3.json
