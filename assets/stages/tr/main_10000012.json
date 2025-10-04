@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000012,
+      "type": "main",
+      "title": "Gıdalar I",
+      "subtitle": "Meyve İsimleri",
+      "description": "Bölüm içerisine gizlenmiş meyve isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 2,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama II: 4x8 | Çoklulaştırılmış İçiçe Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["s", "Ç", "İ", "R"],
+        ["a", "e", "t", "n"],
+        ["f", "r", "m", "e"],
+        ["ö", "ğ", "i", "y"],
+        ["O", "G", "N", "A"],
+        ["a", "r", "m", "M"],
+        ["t", "e", "i", "n"],
+        ["E", "R", "İ", "K"]
+      ],
+      "words": [
+        {
+          "id": "erik", "path": [[7,0], [7,1], [7,2], [7,3]]
+        },
+        {
+          "id": "mango", "path": [[5,3], [4,3], [4,2], [4,1], [4,0]]
+        },
+        {
+          "id": "çir", "path": [[0,1], [0,2], [0,3]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Tropikal bir meyve!",
+    "Köyde görebileceğiniz meyveler!"
+  ]
+}

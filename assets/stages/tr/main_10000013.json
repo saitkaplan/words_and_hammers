@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000013,
+      "type": "main",
+      "title": "Kırtasiye II",
+      "subtitle": "Kırtasiyeden Eşya İsimleri",
+      "description": "Bölüm içerisine gizlenmiş kırtasiyede satılan bazı eşyaların isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 3,
+      "is_first": true,
+      "first_tier_exp": null,
+      "dev_note": "Aşama III: 4x10 | Genişletilmiş Çoklulaştırılmış İçiçe Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["I", "T", "R", "a"],
+        ["Ğ", "Ç", "E", "k"],
+        ["A", "L", "m", "u"],
+        ["K", "Ö", "I", "c"],
+        ["ş", "N", "Ç", "A"],
+        ["T", "O", "ü", "t"],
+        ["R", "L", "E", "G"],
+        ["A", "K", "m", "R"],
+        ["p", "e", "a", "E"],
+        ["e", "l", "m", "P"]
+      ],
+      "words": [
+        {
+          "id": "pergel", "path": [[9,3], [8,3], [7,3], [6,3], [6,2], [6,1]]
+        },
+        {
+          "id": "karton", "path": [[7,1], [7,0], [6,0], [5,0], [5,1], [4,1]]
+        },
+        {
+          "id": "açıölçer", "path": [[4,3], [4,2], [3,2], [3,1], [2,1], [1,1], [1,2], [0,2]]
+        },
+        {
+          "id": "kağıt", "path": [[3,0], [2,0], [1,0], [0,0], [0,1]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Çizimlerin vazgeçilmez eşyaları!",
+    "Hem öğrenciler, hem profesyoneller için!",
+    "En temel kırtasiye malzemesi!"
+  ]
+}

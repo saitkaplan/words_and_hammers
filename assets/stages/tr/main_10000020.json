@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000020,
+      "type": "main",
+      "title": "Özel I",
+      "subtitle": "Özel Bölüm",
+      "description": "Bölüm içerisine gizlenmiş özel ve çoklu isim veya isimleri bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 3,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama III: 4x10 | Genişletilmiş Çoklulaştırılmış İçiçe Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["m", "a", "i", "c"],
+        ["z", "e", "y", "n"],
+        ["i", "E", "L", "E"],
+        ["t", "D", "k", "R"],
+        ["a", "E", "n", "a"],
+        ["m", "D", "I", "L"],
+        ["o", "h", "A", "L"],
+        ["r", "A", "K", "e"],
+        ["f", "S", "ü", "ç"],
+        ["A", "K", "a", "k"]
+      ],
+      "words": [
+        {
+          "id": "aksakallıdedeler", "path": [[9,0], [9,1], [8,1], [7,1], [7,2], [6,2], [6,3], [5,3], [5,2], [5,1], [4,1], [3,1], [2,1], [2,2], [2,3], [3,3]]
+        },
+        {
+          "id": "aksakallıdede", "path": [[9,0], [9,1], [8,1], [7,1], [7,2], [6,2], [6,3], [5,3], [5,2], [5,1], [4,1], [3,1], [2,1]]
+        },
+        {
+          "id": "sakallıdedeler", "path": [[8,1], [7,1], [7,2], [6,2], [6,3], [5,3], [5,2], [5,1], [4,1], [3,1], [2,1], [2,2], [2,3], [3,3]]
+        },
+        {
+          "id": "sakallıdede", "path": [[8,1], [7,1], [7,2], [6,2], [6,3], [5,3], [5,2], [5,1], [4,1], [3,1], [2,1]]
+        },
+        {
+          "id": "dedeler", "path": [[5,1], [4,1], [3,1], [2,1], [2,2], [2,3], [3,3]]
+        },
+        {
+          "id": "dede", "path": [[5,1], [4,1], [3,1], [2,1]]
+        },
+        {
+          "id": "aksakallı", "path": [[9,0], [9,1], [8,1], [7,1], [7,2], [6,2], [6,3], [5,3], [5,2]]
+        },
+        {
+          "id": "aksakal", "path": [[9,0], [9,1], [8,1], [7,1], [7,2], [6,2], [6,3]]
+        },
+        {
+          "id": "sakallı", "path": [[8,1], [7,1], [7,2], [6,2], [6,3], [5,3], [5,2]]
+        },
+        {
+          "id": "sakal", "path": [[8,1], [7,1], [7,2], [6,2], [6,3]]
+        },
+        {
+          "id": "ak", "path": [[9,0], [9,1]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Rüyalara girer ama iyi huyludur!",
+    "İç içe kelimeler deryası ama tek bir kelime!",
+    "Beyazlara bürünmüş kişi!",
+    "Aile büyüğü!"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000008,
+      "type": "main",
+      "title": "Underwater I",
+      "subtitle": "Fish Names",
+      "description": "You must find the names of fish hidden in the section.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 2,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama II: 4x8 | Çoklulaştırılmış İçiçe Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["t", "h", "a", "f"],
+        ["u", "O", "P", "U"],
+        ["t", "T", "a", "S"],
+        ["O", "C", "a", "e"],
+        ["t", "u", "e", "r"],
+        ["a", "r", "R", "K"],
+        ["s", "c", "A", "H"],
+        ["p", "r", "e", "S"]
+      ],
+      "words": [
+        {
+          "id": "shark", "path": [[7,3], [6,3], [6,2], [5,2], [5,3]]
+        },
+        {
+          "id": "octopus", "path": [[3,0], [3,1], [2,1], [1,1], [1,2], [1,3], [2,3]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Dangerous fish!",
+    "They live in the ocean!"
+  ]
+}

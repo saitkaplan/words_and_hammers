@@ -1,0 +1,75 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000026,
+      "type": "main",
+      "title": "Hayvanlar III",
+      "subtitle": "Hayvan İsimleri",
+      "description": "Bölüm içerisine gizlenmiş hayvan isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 4,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama IV: 4x12 | Ortak Grid Kullanımlı Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["g", "ö", "l", "N"],
+        ["ı", "A", "L", "A"],
+        ["l", "N", "I", "r"],
+        ["İ", "L", "Y", "a"],
+        ["R", "P", "A", "N"],
+        ["O", "M", "y", "Z"],
+        ["G", "E", "e", "E"],
+        ["t", "Ş", "b", "a"],
+        ["a", "r", "a", "t"],
+        ["Y", "İ", "K", "r"],
+        ["E", "f", "r", "e"],
+        ["G", "a", "y", "l"]
+      ],
+      "words": [
+        {
+          "id": "geyik", "path": [[11,0], [10,0], [9,0], [9,1], [9,2]]
+        },
+        {
+          "id": "şempanze", "path": [[7,1], [6,1], [5,1], [4,1], [4,2], [4,3], [5,3], [6,3]]
+        },
+        {
+          "id": "goril", "path": [[6,0], [5,0], [4,0], [3,0], [3,1]]
+        },
+        {
+          "id": "yılan_1", "path": [[3,2], [2,2], [1,2], [1,1], [2,1]]
+        },
+        {
+          "id": "yılan_2", "path": [[3,2], [2,2], [1,2], [1,3], [0,3]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Yağmur ormanlarında yaşayan hayvanlar!",
+    "Islak ama bir o kadar hızlı!",
+    "İnsanlara benzeyenler de var!"
+  ]
+}

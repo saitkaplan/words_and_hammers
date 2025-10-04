@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000016,
+      "type": "main",
+      "title": "Bitkiler I",
+      "subtitle": "Ağaç İsimleri",
+      "description": "Bölüm içerisine gizlenmiş ağaç isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 3,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama III: 4x10 | Genişletilmiş Çoklulaştırılmış İçiçe Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["r", "N", "İ", "D"],
+        ["i", "z", "L", "A"],
+        ["b", "A", "e", "r"],
+        ["S", "Y", "T", "Ü"],
+        ["A", "n", "e", "Ğ"],
+        ["K", "A", "S", "Ö"],
+        ["ş", "N", "f", "a"],
+        ["i", "I", "E", "s"],
+        ["n", "Y", "Ş", "u"],
+        ["K", "A", "E", "M"]
+      ],
+      "words": [
+        {
+          "id": "meşe", "path": [[9,3], [9,2], [8,2], [7,2]]
+        },
+        {
+          "id": "kayın", "path": [[9,0], [9,1], [8,1], [7,1], [6,1]]
+        },
+        {
+          "id": "akasya", "path": [[5,1], [5,0], [4,0], [3,0], [3,1], [2,1]]
+        },
+        {
+          "id": "söğüt", "path": [[5,2], [5,3], [4,3], [3,3], [3,2]]
+        },
+        {
+          "id": "ladin", "path": [[1,2], [1,3], [0,3], [0,2], [0,1]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "En yaygın ağaçlar!",
+    "Geniş yapraklı ağaçlar!",
+    "Markalara konu olan ağaçlar!"
+  ]
+}

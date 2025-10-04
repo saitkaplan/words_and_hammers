@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000031,
+      "type": "main",
+      "title": "Gıdalar III",
+      "subtitle": "Meyve İsimleri",
+      "description": "Bölüm içerisine gizlenmiş meyve isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 5,
+      "is_first": true,
+      "first_tier_exp": null,
+      "dev_note": "Aşama V: 5x12 | Genişletilmiş Ortak Grid Kullanımlı Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["a", "t", "e", "M", "a"],
+        ["j", "A", "N", "Ü", "Z"],
+        ["u", "S", "A", "Z", "Ü"],
+        ["ş", "A", "N", "Ü", "z"],
+        ["y", "E", "K", "İ", "V"],
+        ["z", "L", "E", "K", "İ"],
+        ["k", "İ", "y", "R", "T"],
+        ["e", "Ç", "e", "U", "R"],
+        ["m", "E", "Y", "F", "Z"],
+        ["G", "R", "E", "s", "U"],
+        ["a", "y", "A", "R", "P"],
+        ["ç", "d", "K", "A", "s"]
+      ],
+      "words": [
+        {
+          "id": "karpuz_1", "path": [[11,2], [10,2], [10,3], [10,4], [9,4], [8,4]]
+        },
+        {
+          "id": "karpuz_2", "path": [[11,2], [11,3], [10,3], [10,4], [9,4], [8,4]]
+        },
+        {
+          "id": "greyfurt_1", "path": [[9,0], [9,1], [9,2], [8,2], [8,3], [7,3], [6,3], [6,4]]
+        },
+        {
+          "id": "greyfurt_2", "path": [[9,0], [9,1], [8,1], [8,2], [8,3], [7,3], [6,3], [6,4]]
+        },
+        {
+          "id": "greyfurt_3", "path": [[9,0], [9,1], [9,2], [8,2], [8,3], [7,3], [7,4], [6,4]]
+        },
+        {
+          "id": "greyfurt_4", "path": [[9,0], [9,1], [8,1], [8,2], [8,3], [7,3], [7,4], [6,4]]
+        },
+        {
+          "id": "çilek_1", "path": [[7,1], [6,1], [5,1], [5,2], [4,2]]
+        },
+        {
+          "id": "çilek_2", "path": [[7,1], [6,1], [5,1], [4,1], [4,2]]
+        },
+        {
+          "id": "kivi_1", "path": [[5,3], [5,4], [4,4], [4,3]]
+        },
+        {
+          "id": "kivi_2", "path": [[5,3], [4,3], [4,4], [5,4]]
+        },
+        {
+          "id": "ananas", "path": [[3,1], [3,2], [2,2], [1,2], [1,1], [2,1]]
+        },
+        {
+          "id": "üzüm_1", "path": [[2,4], [2,3], [1,3], [0,3]]
+        },
+        {
+          "id": "üzüm_2", "path": [[2,4], [1,4], [1,3], [0,3]]
+        },
+        {
+          "id": "üzüm_3", "path": [[3,3], [2,3], [1,3], [0,3]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Yaz meyveleri! En güzellerinden hemde!",
+    "Hem tatlı hem de ekşi!"
+  ]
+}

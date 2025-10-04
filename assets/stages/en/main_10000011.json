@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000011,
+      "type": "main",
+      "title": "Countries I",
+      "subtitle": "Country Names",
+      "description": "You must find the names of country hidden in the section.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 2,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama II: 4x8 | Çoklulaştırılmış İçiçe Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["E", "N", "U", "I"],
+        ["S", "I", "M", "G"],
+        ["E", "H", "E", "L"],
+        ["s", "C", "B", "e"],
+        ["a", "n", "g", "l"],
+        ["p", "x", "Y", "a"],
+        ["s", "A", "L", "Y"],
+        ["I", "T", "Y", "a"]
+      ],
+      "words": [
+        {
+          "id": "italy_1", "path": [[7,0], [7,1], [6,1], [6,2], [7,2]]
+        },
+        {
+          "id": "italy_2", "path": [[7,0], [7,1], [6,1], [6,2], [6,3]]
+        },
+        {
+          "id": "italy_3", "path": [[7,0], [7,1], [6,1], [6,2], [5,2]]
+        },
+        {
+          "id": "chinese", "path": [[3,1], [2,1], [1,1], [0,1], [0,0], [1,0], [2,0]]
+        },
+        {
+          "id": "belgium", "path": [[3,2], [2,2], [2,3], [1,3], [0,3], [0,2], [1,2]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "The most crowded one!",
+    "Greetings from Europe!"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000030,
+      "type": "main",
+      "title": "Sualtı II",
+      "subtitle": "Balık İsimleri",
+      "description": "Bölüm içerisine gizlenmiş balık isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 4,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama IV: 4x12 | Ortak Grid Kullanımlı Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["A", "P", "O", "T"],
+        ["T", "I", "r", "e"],
+        ["H", "Z", "d", "v"],
+        ["A", "I", "i", "k"],
+        ["n", "D", "Ğ", "I"],
+        ["y", "L", "I", "L"],
+        ["e", "I", "s", "A"],
+        ["Z", "Y", "y", "B"],
+        ["İ", "P", "E", "K"],
+        ["N", "Ö", "z", "u"],
+        ["E", "K", "u", "z"],
+        ["D", "ü", "k", "u"]
+      ],
+      "words": [
+        {
+          "id": "denizyıldızı", "path": [[11,0], [10,0], [9,0], [8,0], [7,0], [7,1], [6,1], [5,1], [4,1], [3,1], [2,1], [1,1]]
+        },
+        {
+          "id": "köpekbalığı_1", "path": [[10,1], [9,1], [8,1], [8,2], [8,3], [7,3], [6,3], [5,3], [4,3], [4,2], [5,2]]
+        },
+        {
+          "id": "köpekbalığı_2", "path": [[10,1], [9,1], [8,1], [8,2], [8,3], [7,3], [6,3], [5,3], [5,2], [4,2], [4,3]]
+        },
+        {
+          "id": "ahtapot", "path": [[3,0], [2,0], [1,0], [0,0], [0,1], [0,2], [0,3]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Denizin kralları!",
+    "Bir o kadar da yıldızları!"
+  ]
+}

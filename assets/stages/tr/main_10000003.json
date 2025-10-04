@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000003,
+      "type": "main",
+      "title": "Şehirler I",
+      "subtitle": "Şehir İsimleri",
+      "description": "Bölüm içerisine gizlenmiş şehir isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 1,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama I: 4x6 | Temel Aşama",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["a", "p", "L", "A"],
+        ["M", "U", "Ğ", "u"],
+        ["I", "R", "H", "İ"],
+        ["K", "Ş", "E", "R"],
+        ["R", "İ", "M", "Z"],
+        ["i", "r", "z", "İ"]
+      ],
+      "words": [
+        {
+          "id": "izmir", "path": [[5,4], [4,3], [4,2], [4,1], [4,0]]
+        },
+        {
+          "id": "kırşehir", "path": [[3,0], [2,0], [2,1], [3,1], [3,2], [2,2], [2,3], [3,3]]
+        },
+        {
+          "id": "muğla", "path": [[1,0], [1,1], [1,2], [0,2], [0,3]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Genellikle Ege bölgesinden şehirler!",
+    "Bozkırın Tezenesi'nin memleketi!"
+  ]
+}

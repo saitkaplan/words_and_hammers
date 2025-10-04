@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000009,
+      "type": "main",
+      "title": "Kırtasiye I",
+      "subtitle": "Kırtasiyeden Eşya İsimleri",
+      "description": "Bölüm içerisine gizlenmiş kırtasiyede satılan bazı eşyaların isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 2,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama II: 4x8 | Çoklulaştırılmış İçiçe Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["U", "K", "f", "a"],
+        ["L", "k", "e", "l"],
+        ["U", "S", "i", "k"],
+        ["R", "E", "L", "K"],
+        ["a", "L", "E", "İ"],
+        ["s", "A", "M", "L"],
+        ["Ç", "K", "U", "s"],
+        ["U", "Ç", "L", "ı"]
+      ],
+      "words": [
+        {
+          "id": "uç_1", "path": [[7,0], [6,0]]
+        },
+        {
+          "id": "uç_2", "path": [[7,0], [6,1]]
+        },
+        {
+          "id": "uçlukalem", "path": [[7,0], [7,1], [7,2], [6,2], [6,1], [5,1], [4,1], [4,2], [5,2]]
+        },
+        {
+          "id": "kalem", "path": [[6,1], [5,1], [4,1], [4,2], [5,2]]
+        },
+        {
+          "id": "kalemlik", "path": [[6,1], [5,1], [4,1], [4,2], [5,2], [5,3], [4,3], [3,3]]
+        },
+        {
+          "id": "kalemlikler", "path": [[6,1], [5,1], [4,1], [4,2], [5,2], [5,3], [4,3], [3,3], [3,2], [3,1], [3,0]]
+        },
+        {
+          "id": "suluk", "path": [[2,1], [2,0], [1,0], [0,0], [0,1]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Bir öğrencinin her zaman yanında olan kırtasiye eşyaları!",
+    "Küçük ve hassas kırtasiye eşyaları!"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000006,
+      "type": "main",
+      "title": "Foods II",
+      "subtitle": "Fruit Names",
+      "description": "You must find the names of food hidden in the section.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 1,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama I: 4x6 | Temel Aşama",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["r", "A", "S", "u"],
+        ["A", "P", "e", "k"],
+        ["T", "r", "Z", "A"],
+        ["C", "O", "Z", "u"],
+        ["A", "x", "I", "P"],
+        ["T", "i", "k", "o"]
+      ],
+      "words": [
+        {
+          "id": "taco", "path": [[5,0], [4,0], [3,0], [3,1]]
+        },
+        {
+          "id": "pizza", "path": [[4,3], [4,2], [3,2], [2,2], [2,3]]
+        },
+        {
+          "id": "tapas", "path": [[2,0], [1,0], [1,1], [0,1], [0,2]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "The most famous foods from around the world!",
+    "Food from Europe!"
+  ]
+}

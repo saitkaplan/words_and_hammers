@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000024,
+      "type": "main",
+      "title": "Ülkeler III",
+      "subtitle": "Ülke İsimleri",
+      "description": "Bölüm içerisine gizlenmiş ülke isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 4,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama IV: 4x12 | Ortak Grid Kullanımlı Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["r", "E", "f", "Ç"],
+        ["a", "R", "V", "E"],
+        ["T", "E", "R", "E"],
+        ["L", "ö", "O", "l"],
+        ["İ", "G", "N", "e"],
+        ["a", "d", "İ", "r"],
+        ["B", "N", "A", "N"],
+        ["Ü", "k", "ü", "S"],
+        ["L", "A", "R", "U"],
+        ["E", "L", "Ç", "İ"],
+        ["B", "E", "A", "K"],
+        ["e", "B", "ü", "l"]
+      ],
+      "words": [
+        {
+          "id": "belarus_1", "path": [[10,0], [9,0], [8,0], [8,1], [8,2], [8,3], [7,3]]
+        },
+        {
+          "id": "belarus_2", "path": [[11,1], [10,1], [9,1], [8,1], [8,2], [8,3], [7,3]]
+        },
+        {
+          "id": "belarus_3", "path": [[10,0], [9,0], [9,1], [8,1], [8,2], [8,3], [7,3]]
+        },
+        {
+          "id": "belarus_4", "path": [[10,0], [10,1], [9,1], [8,1], [8,2], [8,3], [7,3]]
+        },
+        {
+          "id": "belçika_1", "path": [[11,1], [10,1], [9,1], [9,2], [9,3], [10,3], [10,2]]
+        },
+        {
+          "id": "belçika_2", "path": [[10,0], [10,1], [9,1], [9,2], [9,3], [10,3], [10,2]]
+        },
+        {
+          "id": "belçika_3", "path": [[10,0], [9,0], [9,1], [9,2], [9,3], [10,3], [10,2]]
+        },
+        {
+          "id": "lübnan", "path": [[8,0], [7,0], [6,0], [6,1], [6,2], [6,3]]
+        },
+        {
+          "id": "ingiltere_1", "path": [[5,2], [4,2], [4,1], [4,0], [3,0], [2,0], [2,1], [2,2], [2,3]]
+        },
+        {
+          "id": "ingiltere_2", "path": [[5,2], [4,2], [4,1], [4,0], [3,0], [2,0], [2,1], [1,1], [0,1]]
+        },
+        {
+          "id": "norveç", "path": [[4,2], [3,2], [2,2], [1,2], [1,3], [0,3]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Avrupa, avrupa, avrupa!",
+    "Güneş batmaz derler ama batıyor!"
+  ]
+}

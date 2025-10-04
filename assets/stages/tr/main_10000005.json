@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000005,
+      "type": "main",
+      "title": "Hayvanlar I",
+      "subtitle": "Hayvan İsimleri",
+      "description": "Bölüm içerisine gizlenmiş hayvan isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 1,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama I: 4x6 | Temel Aşama",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["t", "İ", "m", "a"],
+        ["a", "D", "y", "y"],
+        ["f", "E", "e", "U"],
+        ["s", "K", "U", "R"],
+        ["A", "N", "G", "T"],
+        ["K", "e", "c", "A"]
+      ],
+      "words": [
+        {
+          "id": "at", "path": [[5,3], [4,3]]
+        },
+        {
+          "id": "kanguru", "path": [[5,0], [4,0], [4,1], [4,2], [3,2], [3,3], [2,3]]
+        },
+        {
+          "id": "kedi", "path": [[3,1], [2,1], [1,1], [0,1]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Avustralya kıtasına özel bir hayvan!",
+    "Türklerin çok sevdiği hayvanlar!"
+  ]
+}

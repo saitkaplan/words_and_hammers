@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000011,
+      "type": "main",
+      "title": "Eşyalar II",
+      "subtitle": "Mobilya İsimleri",
+      "description": "Bölüm içerisine gizlenmiş evde kullanılan mobilya ve eşya isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 2,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama II: 4x8 | Çoklulaştırılmış İçiçe Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["g", "Ü", "P", "E"],
+        ["R", "T", "E", "t"],
+        ["Ö", "Ü", "N", "A"],
+        ["r", "i", "l", "K"],
+        ["e", "f", "u", "e"],
+        ["N", "C", "A", "N"],
+        ["İ", "c", "L", "y"],
+        ["F", "T", "Ü", "f"]
+      ],
+      "words": [
+        {
+          "id": "fincan", "path": [[7,0], [6,0], [5,0], [5,1], [5,2], [5,3]]
+        },
+        {
+          "id": "tül", "path": [[7,1], [7,2], [6,2]]
+        },
+        {
+          "id": "kanepe", "path": [[3,3], [2,3], [2,2], [1,2], [0,2], [0,3]]
+        },
+        {
+          "id": "örtü_1", "path": [[2,0], [1,0], [1,1], [2,1]]
+        },
+        {
+          "id": "örtü_2", "path": [[2,0], [1,0], [1,1], [0,1]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Oturma odasında bulunan eşyalar!",
+    "İnce eşyalar!"
+  ]
+}

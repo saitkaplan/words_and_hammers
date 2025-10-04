@@ -5,8 +5,26 @@ import 'package:flutter/services.dart';
 import 'package:flame/game.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:collection/collection.dart';
 
-enum HammerType { none, singleTile, fullRow, fullColumn }
+enum HammerType {
+  none,
+  singleTile,
+  fullRow,
+  fullColumn,
+  xHammer,
+  positiveHammer,
+  smallSledgeHammer,
+  bigSledgeHammer,
+  rightDuo,
+  downDuo,
+  leftDuo,
+  upDuo,
+  horizontalTrio,
+  verticalTrio,
+  diagonalLeft,
+  diagonalRight,
+}
 
 class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
   final int level;
@@ -16,6 +34,7 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
   final bool tutorialLevel;
   final int? tutorialLevelIndex;
   final VoidCallback? onTutorialAnimUpdate;
+  final VoidCallback? onGridShifted;
 
   MainGame({
     required this.level,
@@ -25,6 +44,7 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
     this.tutorialLevel = false,
     this.tutorialLevelIndex,
     this.onTutorialAnimUpdate,
+    this.onGridShifted,
   });
 
   final List<GridTile> tiles = [];
@@ -51,7 +71,7 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
 
   void startTutorialAnimation(List<List<int>> path) {
     tutorialOriginalPath = path;
-    tutorialPath = path.map((p) => _tileCenterPosition(p[0], p[1])).toList();
+    tutorialPath = path.map((p) => tileCenterPosition(p[0], p[1])).toList();
     tutorialAnimIndex = 0;
     isTutorialAnimating = true;
     tutorialTrail = [];
@@ -80,7 +100,7 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
   }
 
   // Griddeki Harflerin Koordinatının Bulunduğu Fonksiyon
-  Vector2 _tileCenterPosition(int row, int col) {
+  Vector2 tileCenterPosition(int row, int col) {
     final int rowCount = grid.length;
     final int colCount = grid[0].length;
     final double gridMaxWidth = size.x * 0.8;
@@ -126,7 +146,7 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
             onTutorialAnimUpdate!();
           }
           if (tutorialLooping) {
-            Future.delayed(const Duration(seconds: 2), () {
+            Future.delayed(const Duration(milliseconds: 1250), () {
               if (tutorialLooping) {
                 restartTutorialAnimation();
               }
@@ -164,19 +184,25 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
   }
 
   Future<void> loadLevelData() async {
-    final String data = await rootBundle.loadString(
-      tutorialLevel
-          ? 'assets/levels/tutorial_level_${tutorialLevelIndex ?? 1}.json'
-          : 'assets/levels/level_$level.json',
-    );
+    final int fileId = tutorialLevel
+        ? (tutorialLevelIndex ?? 1) + 10000000
+        : level + 10000000;
+    final String path = tutorialLevel
+        ? 'assets/stages/tr/edu_$fileId.json'
+        : 'assets/stages/tr/main_$fileId.json';
+
+    final String data = await rootBundle.loadString(path);
     final Map<String, dynamic> jsonData = json.decode(data);
+
     grid = List<List<String>>.from(
-      jsonData['grid'].map((row) => List<String>.from(row)),
+      jsonData['layers']['1']['grid'].map((row) => List<String>.from(row)),
     );
+
     validWords = List<Word>.from(
-      jsonData['words'].map((w) => Word.fromJson(w)),
+      (jsonData['layers']['1']['words'] ?? []).map((w) => Word.fromJson(w)),
     );
-    levelName = jsonData['name'];
+
+    levelName = jsonData['meta']['primary']['title'];
   }
 
   void setupUI() {
@@ -326,7 +352,7 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
   }
 
   @override
-  void onDragEnd(DragEndEvent event) {
+  void onDragEnd(DragEndEvent event) async {
     super.onDragEnd(event);
     final selectedPath = selectedTiles
         .map((tile) => [tile.row - shiftCounter, tile.col])
@@ -346,6 +372,9 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
     });
 
     if (isMatch) {
+      await Future.wait(
+        selectedTiles.map((tile) => tile.playCorrectAnimation()),
+      );
       for (var tile in selectedTiles) {
         grid[tile.row][tile.col] = '';
         tile.removeFromParent();
@@ -358,6 +387,7 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
       checkAndShiftGridDown();
       checkRemainingValidWords();
     } else {
+      await Future.wait(selectedTiles.map((tile) => tile.playWrongAnimation()));
       for (var tile in selectedTiles) {
         tile.deselect();
         if (kDebugMode) {
@@ -373,18 +403,20 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
     final tile = tileAtPosition(event.canvasPosition);
     if (tile != null && selectedHammerType != HammerType.none) {
       switch (selectedHammerType) {
+        // Basit Çekiç
         case HammerType.singleTile:
           grid[tile.row][tile.col] = '';
           tile.removeFromParent();
           tiles.remove(tile);
           scoreManager.decrease(10);
           if (kDebugMode) {
-            print("HÜCRESEL ÇEKİÇ KULLANIMI SIRASINDA ÇALIŞAN NOKTA!");
+            print("BASİT ÇEKİÇ KULLANIMI SIRASINDA ÇALIŞAN NOKTA!");
           }
           checkAndShiftGridDown();
           checkRemainingValidWords();
           break;
 
+        // Satır Çekici
         case HammerType.fullRow:
           for (int col = 0; col < grid[0].length; col++) {
             grid[tile.row][col] = '';
@@ -414,6 +446,7 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
           checkRemainingValidWords();
           break;
 
+        // Sütun Çekici
         case HammerType.fullColumn:
           for (int row = 0; row < grid.length; row++) {
             grid[row][tile.col] = '';
@@ -438,6 +471,364 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
           scoreManager.decrease(10);
           if (kDebugMode) {
             print("SÜTUN ÇEKİCİ KULLANIMI SIRASINDA 1 KERE ÇALIŞAN NOKTA!");
+          }
+          checkAndShiftGridDown();
+          checkRemainingValidWords();
+          break;
+
+        // X Çekici
+        case HammerType.xHammer:
+          final List<List<int>> deltas = [
+            [-1, -1],
+            [-1, 1],
+            [1, -1],
+            [1, 1],
+            [0, 0],
+          ];
+          for (final delta in deltas) {
+            final int r = tile.row + delta[0];
+            final int c = tile.col + delta[1];
+            if (r >= 0 && r < grid.length && c >= 0 && c < grid[0].length) {
+              if (grid[r][c] != '') {
+                grid[r][c] = '';
+                final t = tiles.firstWhereOrNull(
+                  (t) => t.row == r && t.col == c,
+                );
+                if (t != null) {
+                  t.removeFromParent();
+                  tiles.remove(t);
+                }
+              }
+            }
+          }
+          scoreManager.decrease(10);
+          if (kDebugMode) {
+            print("X ÇEKİCİ KULLANIMI SIRASINDA ÇALIŞAN NOKTA!");
+          }
+          checkAndShiftGridDown();
+          checkRemainingValidWords();
+          break;
+
+        // Pozitif Çekiç
+        case HammerType.positiveHammer:
+          final List<List<int>> deltas = [
+            [0, 0],
+            [-1, 0],
+            [1, 0],
+            [0, -1],
+            [0, 1],
+          ];
+          for (final delta in deltas) {
+            final int r = tile.row + delta[0];
+            final int c = tile.col + delta[1];
+            if (r >= 0 && r < grid.length && c >= 0 && c < grid[0].length) {
+              if (grid[r][c] != '') {
+                grid[r][c] = '';
+                final t = tiles.firstWhereOrNull(
+                  (t) => t.row == r && t.col == c,
+                );
+                if (t != null) {
+                  t.removeFromParent();
+                  tiles.remove(t);
+                }
+              }
+            }
+          }
+          scoreManager.decrease(10);
+          if (kDebugMode) {
+            print("POZİTİF ÇEKİÇ KULLANIMI SIRASINDA ÇALIŞAN NOKTA!");
+          }
+          checkAndShiftGridDown();
+          checkRemainingValidWords();
+          break;
+
+        // Küçük Balyoz
+        case HammerType.smallSledgeHammer:
+          for (int dr = -1; dr <= 1; dr++) {
+            for (int dc = -1; dc <= 1; dc++) {
+              final int r = tile.row + dr;
+              final int c = tile.col + dc;
+              if (r >= 0 && r < grid.length && c >= 0 && c < grid[0].length) {
+                if (grid[r][c] != '') {
+                  grid[r][c] = '';
+                  final t = tiles.firstWhereOrNull(
+                    (t) => t.row == r && t.col == c,
+                  );
+                  if (t != null) {
+                    t.removeFromParent();
+                    tiles.remove(t);
+                  }
+                }
+              }
+            }
+          }
+          scoreManager.decrease(10);
+          if (kDebugMode) {
+            print("KÜÇÜK BALYOZ KULLANIMI SIRASINDA ÇALIŞAN NOKTA!");
+          }
+          checkAndShiftGridDown();
+          checkRemainingValidWords();
+          break;
+
+        // Büyük Balyoz
+        case HammerType.bigSledgeHammer:
+          for (int dr = -2; dr <= 2; dr++) {
+            for (int dc = -2; dc <= 2; dc++) {
+              final int r = tile.row + dr;
+              final int c = tile.col + dc;
+              if (r >= 0 && r < grid.length && c >= 0 && c < grid[0].length) {
+                if (grid[r][c] != '') {
+                  grid[r][c] = '';
+                  final t = tiles.firstWhereOrNull(
+                    (t) => t.row == r && t.col == c,
+                  );
+                  if (t != null) {
+                    t.removeFromParent();
+                    tiles.remove(t);
+                  }
+                }
+              }
+            }
+          }
+          scoreManager.decrease(10);
+          if (kDebugMode) {
+            print("BÜYÜK BALYOZ KULLANIMI SIRASINDA ÇALIŞAN NOKTA!");
+          }
+          checkAndShiftGridDown();
+          checkRemainingValidWords();
+          break;
+
+        // Sağ Kırıcı
+        case HammerType.rightDuo:
+          for (final delta in [
+            [0, 0],
+            [0, 1],
+          ]) {
+            final int r = tile.row + delta[0];
+            final int c = tile.col + delta[1];
+            if (r >= 0 && r < grid.length && c >= 0 && c < grid[0].length) {
+              if (grid[r][c] != '') {
+                grid[r][c] = '';
+                final t = tiles.firstWhereOrNull(
+                  (t) => t.row == r && t.col == c,
+                );
+                if (t != null) {
+                  t.removeFromParent();
+                  tiles.remove(t);
+                }
+              }
+            }
+          }
+          scoreManager.decrease(10);
+          if (kDebugMode) {
+            print("SAĞ KIRICI KULLANIMI SIRASINDA ÇALIŞAN NOKTA!");
+          }
+          checkAndShiftGridDown();
+          checkRemainingValidWords();
+          break;
+
+        // Aşağı Kırıcı
+        case HammerType.downDuo:
+          for (final delta in [
+            [0, 0],
+            [1, 0],
+          ]) {
+            final int r = tile.row + delta[0];
+            final int c = tile.col + delta[1];
+            if (r >= 0 && r < grid.length && c >= 0 && c < grid[0].length) {
+              if (grid[r][c] != '') {
+                grid[r][c] = '';
+                final t = tiles.firstWhereOrNull(
+                  (t) => t.row == r && t.col == c,
+                );
+                if (t != null) {
+                  t.removeFromParent();
+                  tiles.remove(t);
+                }
+              }
+            }
+          }
+          scoreManager.decrease(10);
+          if (kDebugMode) {
+            print("AŞAĞI KIRICI KULLANIMI SIRASINDA ÇALIŞAN NOKTA!");
+          }
+          checkAndShiftGridDown();
+          checkRemainingValidWords();
+          break;
+
+        // Sol Kırıcı
+        case HammerType.leftDuo:
+          for (final delta in [
+            [0, 0],
+            [0, -1],
+          ]) {
+            final int r = tile.row + delta[0];
+            final int c = tile.col + delta[1];
+            if (r >= 0 && r < grid.length && c >= 0 && c < grid[0].length) {
+              if (grid[r][c] != '') {
+                grid[r][c] = '';
+                final t = tiles.firstWhereOrNull(
+                  (t) => t.row == r && t.col == c,
+                );
+                if (t != null) {
+                  t.removeFromParent();
+                  tiles.remove(t);
+                }
+              }
+            }
+          }
+          scoreManager.decrease(10);
+          if (kDebugMode) {
+            print("SOL KIRICI KULLANIMI SIRASINDA ÇALIŞAN NOKTA!");
+          }
+          checkAndShiftGridDown();
+          checkRemainingValidWords();
+          break;
+
+        // Yukarı Kırıcı
+        case HammerType.upDuo:
+          for (final delta in [
+            [0, 0],
+            [-1, 0],
+          ]) {
+            final int r = tile.row + delta[0];
+            final int c = tile.col + delta[1];
+            if (r >= 0 && r < grid.length && c >= 0 && c < grid[0].length) {
+              if (grid[r][c] != '') {
+                grid[r][c] = '';
+                final t = tiles.firstWhereOrNull(
+                  (t) => t.row == r && t.col == c,
+                );
+                if (t != null) {
+                  t.removeFromParent();
+                  tiles.remove(t);
+                }
+              }
+            }
+          }
+          scoreManager.decrease(10);
+          if (kDebugMode) {
+            print("YUKARI KIRICI KULLANIMI SIRASINDA ÇALIŞAN NOKTA!");
+          }
+          checkAndShiftGridDown();
+          checkRemainingValidWords();
+          break;
+
+        // Yatay Çekiç
+        case HammerType.horizontalTrio:
+          for (final delta in [
+            [0, -1],
+            [0, 0],
+            [0, 1],
+          ]) {
+            final int r = tile.row + delta[0];
+            final int c = tile.col + delta[1];
+            if (r >= 0 && r < grid.length && c >= 0 && c < grid[0].length) {
+              if (grid[r][c] != '') {
+                grid[r][c] = '';
+                final t = tiles.firstWhereOrNull(
+                  (t) => t.row == r && t.col == c,
+                );
+                if (t != null) {
+                  t.removeFromParent();
+                  tiles.remove(t);
+                }
+              }
+            }
+          }
+          scoreManager.decrease(10);
+          if (kDebugMode) {
+            print("YATAY ÇEKİÇ KULLANIMI SIRASINDA ÇALIŞAN NOKTA!");
+          }
+          checkAndShiftGridDown();
+          checkRemainingValidWords();
+          break;
+
+        // Dikey Çekiç
+        case HammerType.verticalTrio:
+          for (final delta in [
+            [-1, 0],
+            [0, 0],
+            [1, 0],
+          ]) {
+            final int r = tile.row + delta[0];
+            final int c = tile.col + delta[1];
+            if (r >= 0 && r < grid.length && c >= 0 && c < grid[0].length) {
+              if (grid[r][c] != '') {
+                grid[r][c] = '';
+                final t = tiles.firstWhereOrNull(
+                  (t) => t.row == r && t.col == c,
+                );
+                if (t != null) {
+                  t.removeFromParent();
+                  tiles.remove(t);
+                }
+              }
+            }
+          }
+          scoreManager.decrease(10);
+          if (kDebugMode) {
+            print("DİKEY ÇEKİÇ KULLANIMI SIRASINDA ÇALIŞAN NOKTA!");
+          }
+          checkAndShiftGridDown();
+          checkRemainingValidWords();
+          break;
+
+        // Sola Eğik Çekiç
+        case HammerType.diagonalLeft:
+          for (final delta in [
+            [-1, -1],
+            [0, 0],
+            [1, 1],
+          ]) {
+            final int r = tile.row + delta[0];
+            final int c = tile.col + delta[1];
+            if (r >= 0 && r < grid.length && c >= 0 && c < grid[0].length) {
+              if (grid[r][c] != '') {
+                grid[r][c] = '';
+                final t = tiles.firstWhereOrNull(
+                  (t) => t.row == r && t.col == c,
+                );
+                if (t != null) {
+                  t.removeFromParent();
+                  tiles.remove(t);
+                }
+              }
+            }
+          }
+          scoreManager.decrease(10);
+          if (kDebugMode) {
+            print("SOLA EĞİK ÇEKİÇ KULLANIMI SIRASINDA ÇALIŞAN NOKTA!");
+          }
+          checkAndShiftGridDown();
+          checkRemainingValidWords();
+          break;
+
+        // Sağa Eğik Çekiç
+        case HammerType.diagonalRight:
+          for (final delta in [
+            [-1, 1],
+            [0, 0],
+            [1, -1],
+          ]) {
+            final int r = tile.row + delta[0];
+            final int c = tile.col + delta[1];
+            if (r >= 0 && r < grid.length && c >= 0 && c < grid[0].length) {
+              if (grid[r][c] != '') {
+                grid[r][c] = '';
+                final t = tiles.firstWhereOrNull(
+                  (t) => t.row == r && t.col == c,
+                );
+                if (t != null) {
+                  t.removeFromParent();
+                  tiles.remove(t);
+                }
+              }
+            }
+          }
+          scoreManager.decrease(10);
+          if (kDebugMode) {
+            print("SAĞA EĞİK ÇEKİÇ KULLANIMI SIRASINDA ÇALIŞAN NOKTA!");
           }
           checkAndShiftGridDown();
           checkRemainingValidWords();
@@ -474,6 +865,9 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
       }
       shiftCounter += 1;
       shifted = true;
+      if (onGridShifted != null) {
+        onGridShifted!();
+      }
     }
     if (shifted) {
       checkAndShiftGridDown();
@@ -500,12 +894,16 @@ class MainGame extends FlameGame with DragCallbacks, TapCallbacks {
 }
 
 // Grid Sistemi İç Harf ve Tasarım Mekanikleri
-class GridTile extends PositionComponent {
+class GridTile extends PositionComponent with HasGameReference<MainGame> {
   final String letter;
   int row;
   final int col;
   bool isSelected = false;
   late TextComponent label;
+  Color backgroundColor = Colors.transparent;
+  bool isAnimating = false;
+  bool isCorrectAnim = false;
+  bool isWrongAnim = false;
 
   GridTile({
     required this.letter,
@@ -525,6 +923,7 @@ class GridTile extends PositionComponent {
       textRenderer: TextPaint(
         style: TextStyle(fontSize: size.x * 0.5, color: Colors.white),
       ),
+      priority: 1,
     );
     add(label);
     add(
@@ -534,12 +933,23 @@ class GridTile extends PositionComponent {
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2
           ..color = Colors.greenAccent,
+        priority: 0,
       ),
     );
   }
 
+  @override
+  void render(Canvas canvas) {
+    if (backgroundColor != Colors.transparent) {
+      final paint = Paint()..color = backgroundColor;
+      canvas.drawRect(Rect.fromLTWH(0, 0, size.x, size.y), paint);
+    }
+    super.render(canvas);
+  }
+
   void deselect() {
     isSelected = false;
+    backgroundColor = Colors.transparent;
     label.textRenderer = TextPaint(
       style: TextStyle(fontSize: size.x * 0.5, color: Colors.white60),
     );
@@ -547,9 +957,37 @@ class GridTile extends PositionComponent {
 
   void select() {
     isSelected = true;
+    backgroundColor = Colors.white54;
     label.textRenderer = TextPaint(
-      style: TextStyle(fontSize: size.x * 0.6, color: Colors.red.shade400),
+      style: TextStyle(fontSize: size.x * 0.6, color: Colors.black87),
     );
+  }
+
+  Future<void> playCorrectAnimation() async {
+    isAnimating = true;
+    isCorrectAnim = true;
+    for (int i = 0; i < 2; i++) {
+      backgroundColor = Colors.green;
+      await Future.delayed(const Duration(milliseconds: 120));
+      backgroundColor = Colors.transparent;
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+    isAnimating = false;
+    isCorrectAnim = false;
+  }
+
+  Future<void> playWrongAnimation() async {
+    isAnimating = true;
+    isWrongAnim = true;
+    for (int i = 0; i < 2; i++) {
+      backgroundColor = Colors.red;
+      await Future.delayed(const Duration(milliseconds: 120));
+      backgroundColor = Colors.transparent;
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+    isAnimating = false;
+    isWrongAnim = false;
+    backgroundColor = Colors.transparent;
   }
 
   bool isBottomRow(int totalRows) => row == totalRows - 1;

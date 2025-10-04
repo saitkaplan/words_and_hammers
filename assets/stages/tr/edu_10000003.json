@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000003,
+      "type": "education",
+      "title": "Eğitim III",
+      "subtitle": "Temel Mekanikler",
+      "description": "Oyunu öğretmek için hazırlanmış bir eğitim bölümü.",
+      "max_score": 160
+    },
+    "secondary": {
+      "tier": 0,
+      "is_first": null,
+      "first_tier_exp": null,
+      "dev_note": "Aşama 0: Eğitim",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["y", "R", "A", "x"],
+        ["B", "U", "D", "A"],
+        ["x", "y", "x", "y"],
+        ["x", "İ", "T", "y"],
+        ["y", "Ğ", "İ", "M"],
+        ["x", "E", "y", "x"]
+      ],
+      "words": [
+        {
+          "id": "eğitim", "path": [[5,1], [4,1], [3,1], [3,2], [4,2], [4,3]]
+        },
+        {
+          "id": "burada", "path": [[1,0], [1,1], [0,1], [0,2], [1,2], [1,3]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Tüm ipuçları, oyun alanındaki kelimeleri çağrıştıracak genel tanımlardır!"
+  ]
+}

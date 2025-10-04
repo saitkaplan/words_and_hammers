@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000001,
+      "type": "education",
+      "title": "Eğitim I",
+      "subtitle": "Temel Mekanikler",
+      "description": "Oyunu öğretmek için hazırlanmış bir eğitim bölümü.",
+      "max_score": 120
+    },
+    "secondary": {
+      "tier": 0,
+      "is_first": null,
+      "first_tier_exp": null,
+      "dev_note": "Aşama 0: Eğitim",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["x", "x", "x"],
+        ["x", "x", "x"],
+        ["x", "x", "x"],
+        ["x", "E", "M"],
+        ["E", "L", "İ"],
+        ["K", "x", "x"]
+      ],
+      "words": [
+        {
+          "id": "kelime", "path": [[5,0], [4,0], [4,1], [4,2], [3,2], [3,1]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Bu bir eğitim bölümüdür!"
+  ]
+}

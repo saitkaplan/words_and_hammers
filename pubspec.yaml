@@ -9,8 +9,11 @@ dependencies:
   flutter:
     sdk: flutter
   flame: ^1.13.1
+  collection: ^1.19.1
   cupertino_icons: ^1.0.8
   flutter_dotenv: ^5.2.1
+  path_provider: ^2.1.2
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -22,19 +25,10 @@ flutter:
   assets:
     # Özel Dosyalar
     - .env
-    # Oyun Görsel Assetleri
-    - assets/images/logos/wnh_logo.png
     # Oyun Bölümleri
-    - assets/levels/tutorial_level_1.json
-    - assets/levels/tutorial_level_2.json
-    - assets/levels/tutorial_level_3.json
-    - assets/levels/level_1.json
-    - assets/levels/level_2.json
-    - assets/levels/level_3.json
-    - assets/levels/level_4.json
-    - assets/levels/level_5.json
-    - assets/levels/level_6.json
-    - assets/levels/level_7.json
-    - assets/levels/level_8.json
-    - assets/levels/level_9.json
-    - assets/levels/level_10.json
+    - assets/
+    - assets/images/
+    - assets/images/logos/
+    - assets/stages/
+    - assets/stages/tr/
+    - assets/stages/en/

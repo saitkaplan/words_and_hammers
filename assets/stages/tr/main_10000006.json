@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000006,
+      "type": "main",
+      "title": "Hayvanlar II",
+      "subtitle": "Hayvan İsimleri",
+      "description": "Bölüm içerisine gizlenmiş hayvan isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 1,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama I: 4x6 | Temel Aşama",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["o", "R", "A", "t"],
+        ["T", "E", "F", "n"],
+        ["R", "k", "N", "e"],
+        ["U", "p", "A", "L"],
+        ["K", "ö", "h", "Y"],
+        ["t", "e", "C", "E"]
+      ],
+      "words": [
+        {
+          "id": "ceylan", "path": [[5,2], [5,3], [4,3], [3,3], [3,2], [2,2]]
+        },
+        {
+          "id": "kurt", "path": [[4,0], [3,0], [2,0], [1,0]]
+        },
+        {
+          "id": "fare", "path": [[1,2], [0,2], [0,1], [1,1]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Ürkek ve sinsi hayvanlar!",
+    "Çevik ve ince yapılı hayvanlar!"
+  ]
+}

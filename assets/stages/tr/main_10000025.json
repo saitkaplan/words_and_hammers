@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000025,
+      "type": "main",
+      "title": "Bitkiler II",
+      "subtitle": "Sebze İsimleri",
+      "description": "Bölüm içerisine gizlenmiş sebze isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 4,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama IV: 4x12 | Ortak Grid Kullanımlı Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["ş", "i", "U", "n"],
+        ["ü", "O", "T", "e"],
+        ["R", "E", "B", "t"],
+        ["a", "R", "İ", "K"],
+        ["D", "E", "B", "A"],
+        ["v", "ü", "A", "N"],
+        ["e", "z", "K", "A"],
+        ["L", "U", "R", "P"],
+        ["i", "R", "U", "S"],
+        ["M", "A", "T", "I"],
+        ["b", "t", "a", "r"],
+        ["a", "t", "m", "u"]
+      ],
+      "words": [
+        {
+          "id": "marul", "path": [[9,0], [9,1], [8,1], [7,1], [7,0]]
+        },
+        {
+          "id": "turp", "path": [[9,2], [8,2], [7,2], [7,3]]
+        },
+        {
+          "id": "ıspanak", "path": [[9,3], [8,3], [7,3], [6,3], [5,3], [4,3], [3,3]]
+        },
+        {
+          "id": "kabak", "path": [[6,2], [5,2], [4,2], [4,3], [3,3]]
+        },
+        {
+          "id": "dereotu", "path": [[4,0], [4,1], [3,1], [2,1], [1,1], [1,2], [0,2]]
+        },
+        {
+          "id": "biber", "path": [[4,2], [3,2], [2,2], [2,1], [2,0]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Sebzecil yeşiller!",
+    "Sağlıklı ve sulu..."
+  ]
+}

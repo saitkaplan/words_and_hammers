@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000021,
+      "type": "main",
+      "title": "Gıdalar II",
+      "subtitle": "Yemek İsimleri",
+      "description": "Bölüm içerisine gizlenmiş yemek isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 4,
+      "is_first": true,
+      "first_tier_exp": null,
+      "dev_note": "Aşama IV: 4x12 | Ortak Grid Kullanımlı Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["S", "U", "S", "e"],
+        ["u", "m", "l", "o"],
+        ["ş", "R", "E", "r"],
+        ["d", "R", "G", "i"],
+        ["ü", "U", "a", "h"],
+        ["n", "B", "Ş", "e"],
+        ["y", "M", "A", "Ş"],
+        ["L", "A", "V", "p"],
+        ["a", "H", "R", "a"],
+        ["m", "N", "E", "R"],
+        ["b", "Ö", "f", "a"],
+        ["e", "D", "e", "h"]
+      ],
+      "words": [
+        {
+          "id": "döner_1", "path": [[11,1], [10,1], [9,1], [9,2], [8,2]]
+        },
+        {
+          "id": "döner_2", "path": [[11,1], [10,1], [9,1], [9,2], [9,3]]
+        },
+        {
+          "id": "hamburger", "path": [[8,1], [7,1], [6,1], [5,1], [4,1], [3,1], [3,2], [2,2], [2,1]]
+        },
+        {
+          "id": "burger", "path": [[5,1], [4,1], [3,1], [3,2], [2,2], [2,1]]
+        },
+        {
+          "id": "lavaş_1", "path": [[7,0], [7,1], [7,2], [6,2], [6,3]]
+        },
+        {
+          "id": "lavaş_2", "path": [[7,0], [7,1], [7,2], [6,2], [5,2]]
+        },
+        {
+          "id": "su_1", "path": [[0,0], [0,1]]
+        },
+        {
+          "id": "su_2", "path": [[0,2], [0,1]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "En temel sıvı! Onsuz yaşanmaz!",
+    "En yaygın gıdalar!"
+  ]
+}

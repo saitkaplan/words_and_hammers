@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000001,
+      "type": "main",
+      "title": "İnsanlar I",
+      "subtitle": "İnsan İsimleri",
+      "description": "Bölüm içerisine gizlenmiş insan isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 1,
+      "is_first": true,
+      "first_tier_exp": null,
+      "dev_note": "Aşama I: 4x6 | Temel Aşama",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["v", "a", "A", "D"],
+        ["ö", "M", "A", "E"],
+        ["O", "S", "N", "a"],
+        ["ğ", "s", "a", "M"],
+        ["n", "İ", "F", "E"],
+        ["A", "L", "E", "C"]
+      ],
+      "words": [
+        {
+          "id": "ali", "path": [[5,0], [5,1], [4,1]]
+        },
+        {
+          "id": "cem", "path": [[5,3], [4,3], [3,3]]
+        },
+        {
+          "id": "efe", "path": [[5,2], [4,2], [4,3]]
+        },
+        {
+          "id": "ece", "path": [[5,2], [5,3], [4,3]]
+        },
+        {
+          "id": "osman", "path": [[2,0], [2,1], [1,1], [1,2], [2,2]]
+        },
+        {
+          "id": "eda", "path": [[1,3], [0,3], [0,2]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Geneli 3 harfli yaygın isimler!",
+    "Çoğunlukla erkek isimleri!",
+    "Tarihte çok önemli bir ismin parçası!"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "primary": {
+      "id": 0,
+      "type": "",
+      "title": "",
+      "subtitle": "",
+      "description": "",
+      "max_score": 0
+    },
+    "secondary": {
+      "tier": 0,
+      "is_first": false,
+      "first_tier_exp": "",
+      "dev_note": "",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": false,
+      "limit_situation": {
+        "has_time_limit": false,
+        "time_limit": 0
+      },
+      "ext_situation": {
+        "has_hidden_extension": false,
+        "extension_conditions": {
+          "trigger_word_id": "",
+          "trigger_score": 0,
+          "initial_size": [0, 0],
+          "reveal_size": [0, 0]
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["", "", "", ""],
+        ["", "", "", ""]
+      ],
+      "words": [
+        {
+          "id": "", "path": [[0,0], [0,0]]
+        },
+        {
+          "id": "", "path": [[0,0], [0,0]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "",
+    ""
+  ]
+}

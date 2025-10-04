@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000022,
+      "type": "main",
+      "title": "İnsanlar III",
+      "subtitle": "İnsan İsimleri",
+      "description": "Bölüm içerisine gizlenmiş insan isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 4,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama IV: 4x12 | Ortak Grid Kullanımlı Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["f", "e", "r", "h"],
+        ["M", "I", "Z", "A"],
+        ["I", "M", "r", "H"],
+        ["Z", "A", "K", "e"],
+        ["m", "i", "R", "K"],
+        ["v", "ş", "E", "u"],
+        ["o", "N", "B", "p"],
+        ["G", "Ü", "e", "c"],
+        ["Z", "R", "D", "A"],
+        ["Ö", "A", "b", "N"],
+        ["b", "N", "K", "A"],
+        ["C", "A", "A", "H"]
+      ],
+      "words": [
+        {
+          "id": "hakan", "path": [[11,3], [11,2], [10,2], [10,3], [9,3]]
+        },
+        {
+          "id": "can", "path": [[11,0], [11,1], [10,1]]
+        },
+        {
+          "id": "arda", "path": [[9,1], [8,1], [8,2], [8,3]]
+        },
+        {
+          "id": "özgün", "path": [[9,0], [8,0], [7,0], [7,1], [6,1]]
+        },
+        {
+          "id": "özgür", "path": [[9,0], [8,0], [7,0], [7,1], [8,1]]
+        },
+        {
+          "id": "berk_1", "path": [[6,2], [5,2], [4,2], [3,2]]
+        },
+        {
+          "id": "berk_2", "path": [[6,2], [5,2], [4,2], [4,3]]
+        },
+        {
+          "id": "kazım_1", "path": [[3,2], [3,1], [3,0], [2,0], [2,1]]
+        },
+        {
+          "id": "kazım_2", "path": [[3,2], [3,1], [3,0], [2,0], [1,0]]
+        },
+        {
+          "id": "hazım_1", "path": [[2,3], [1,3], [1,2], [1,1], [1,0]]
+        },
+        {
+          "id": "hazım_2", "path": [[2,3], [1,3], [1,2], [1,1], [2,1]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Bir Türk ünvanı!",
+    "Yaygın Türk isimleri!"
+  ]
+}

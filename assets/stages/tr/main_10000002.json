@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000002,
+      "type": "main",
+      "title": "İnsanlar II",
+      "subtitle": "İnsan İsimleri",
+      "description": "Bölüm içerisine gizlenmiş insan isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 1,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama I: 4x6 | Temel Aşama",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["t", "E", "a", "p"],
+        ["U", "D", "T", "E"],
+        ["S", "H", "A", "V"],
+        ["e", "R", "a", "R"],
+        ["d", "E", "M", "E"],
+        ["e", "F", "a", "t"]
+      ],
+      "words": [
+        {
+          "id": "ferhat", "path": [[5,1], [4,1], [3,1], [2,1], [2,2], [1,2]]
+        },
+        {
+          "id": "merve", "path": [[4,2], [4,3], [3,3], [2,3], [1,3]]
+        },
+        {
+          "id": "sude", "path": [[2,0], [1,0], [1,1], [0,1]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Yaygın kız isimleri!",
+    "Hikayelere konu olmuş erkek ismi!"
+  ]
+}

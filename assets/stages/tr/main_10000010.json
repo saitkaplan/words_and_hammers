@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000010,
+      "type": "main",
+      "title": "Kıyafetler I",
+      "subtitle": "Kıyafet İsimleri",
+      "description": "Bölüm içerisine gizlenmiş günlük hayatta kullanılan kıyafet isimlerini bulmalısınız.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 2,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama II: 4x8 | Çoklulaştırılmış İçiçe Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["ü", "T", "E", "r"],
+        ["E", "T", "K", "f"],
+        ["L", "C", "E", "l"],
+        ["T", "A", "O", "T"],
+        ["l", "ı", "r", "L"],
+        ["z", "L", "E", "A"],
+        ["a", "M", "K", "P"],
+        ["G", "Ö", "c", "ü"]
+      ],
+      "words": [
+        {
+          "id": "gömlek", "path": [[7,0], [7,1], [6,1], [5,1], [5,2], [6,2]]
+        },
+        {
+          "id": "palto", "path": [[6,3], [5,3], [4,3], [3,3], [3,2]]
+        },
+        {
+          "id": "atlet", "path": [[3,1], [3,0], [2,0], [1,0], [1,1]]
+        },
+        {
+          "id": "ceket", "path": [[2,1], [2,2], [1,2], [0,2], [0,1]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Kış kıyafetleri!",
+    "Hafif kıyafetler!"
+  ]
+}

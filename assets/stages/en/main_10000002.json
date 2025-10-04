@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000002,
+      "type": "main",
+      "title": "People II",
+      "subtitle": "Human Names",
+      "description": "You must find the names of people hidden in the section.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 1,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama I: 4x6 | Temel Aşama",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["z", "E", "N", "A"],
+        ["a", "K", "O", "G"],
+        ["B", "R", "O", "E"],
+        ["N", "N", "o", "M"],
+        ["E", "A", "r", "r"],
+        ["J", "e", "f", "a"]
+      ],
+      "words": [
+        {
+          "id": "jenna", "path": [[5,0], [4,0], [3,0], [3,1], [4,1]]
+        },
+        {
+          "id": "brooke", "path": [[2,0], [2,1], [2,2], [1,2], [1,1], [0,1]]
+        },
+        {
+          "id": "megan", "path": [[3,3], [2,3], [1,3], [0,3], [0,2]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Some superstar names!",
+    "Female names!"
+  ]
+}

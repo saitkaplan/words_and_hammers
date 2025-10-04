@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000012,
+      "type": "main",
+      "title": "Brands I",
+      "subtitle": "Brand Names",
+      "description": "You must find the names of brand hidden in the section.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 2,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama II: 4x8 | Çoklulaştırılmış İçiçe Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["e", "r", "y", "a"],
+        ["t", "f", "a", "l"],
+        ["A", "S", "T", "e"],
+        ["C", "R", "E", "I"],
+        ["b", "E", "L", "D"],
+        ["u", "B", "L", "U"],
+        ["L", "A", "D", "A"],
+        ["u", "F", "A", "L"]
+      ],
+      "words": [
+        {
+          "id": "lada_1", "path": [[7,3], [7,2], [6,2], [6,3]]
+        },
+        {
+          "id": "lada_2", "path": [[6,0], [6,1], [6,2], [6,3]]
+        },
+        {
+          "id": "fabercastell", "path": [[7,1], [6,1], [5,1], [4,1], [3,1], [3,0], [2,0], [2,1], [2,2], [3,2], [4,2], [5,2]]
+        },
+        {
+          "id": "audi", "path": [[6,3], [5,3], [4,3], [3,3]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "A very big car brand!",
+    "The writing quality is very good!"
+  ]
+}

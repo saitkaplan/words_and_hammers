@@ -2,7 +2,7 @@
 
 > A fast, fluid and immersive competitive word puzzle experience — built with Flutter & Flutter Flame.
 
-![banner](assets/github/images/newbanner.png)
+![banner](assets/images/logos/wnh_banner.png)
 
 ---
 

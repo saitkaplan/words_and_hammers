@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000003,
+      "type": "education",
+      "title": "Education III",
+      "subtitle": "Basic Mechanics",
+      "description": "A training section designed to teach the game.",
+      "max_score": 190
+    },
+    "secondary": {
+      "tier": 0,
+      "is_first": null,
+      "first_tier_exp": null,
+      "dev_note": "Aşama 0: Eğitim",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["y", "E", "R", "y"],
+        ["x", "y", "E", "H"],
+        ["N", "x", "y", "x"],
+        ["O", "İ", "T", "A"],
+        ["y", "D", "U", "C"],
+        ["x", "E", "y", "x"]
+      ],
+      "words": [
+        {
+          "id": "education", "path": [[5,1], [4,1], [4,2], [4,3], [3,3], [3,2], [3,1], [3,0], [2,0]]
+        },
+        {
+          "id": "here", "path": [[1,3], [1,2], [0,2], [0,1]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "All clues are general definitions that will remind you of the words on the game board!"
+  ]
+}

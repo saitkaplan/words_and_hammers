@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000010,
+      "type": "main",
+      "title": "Items I",
+      "subtitle": "Household Item Names",
+      "description": "You must find the names of item hidden in the section.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 2,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama II: 4x8 | Çoklulaştırılmış İçiçe Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["A", "B", "L", "a"],
+        ["T", "h", "E", "E"],
+        ["c", "t", "A", "T"],
+        ["R", "a", "L", "P"],
+        ["A", "C", "u", "t"],
+        ["e", "c", "O", "N"],
+        ["r", "c", "O", "f"],
+        ["o", "o", "P", "S"]
+      ],
+      "words": [
+        {
+          "id": "spoon", "path": [[7,3], [7,2], [6,2], [5,2], [5,3]]
+        },
+        {
+          "id": "car", "path": [[4,1], [4,0], [3,0]]
+        },
+        {
+          "id": "plate", "path": [[3,3], [3,2], [2,2], [2,3], [1,3]]
+        },
+        {
+          "id": "table", "path": [[1,0], [0,0], [0,1], [0,2], [1,2]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Kitchenware!",
+    "Fast and furious!"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000009,
+      "type": "main",
+      "title": "Plants I",
+      "subtitle": "Tree Names",
+      "description": "You must find the names of tree hidden in the section.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 2,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama II: 4x8 | Çoklulaştırılmış İçiçe Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["O", "L", "H", "C"],
+        ["W", "L", "I", "E"],
+        ["A", "c", "W", "E"],
+        ["İ", "t", "i", "B"],
+        ["C", "A", "K", "t"],
+        ["o", "C", "A", "s"],
+        ["K", "A", "O", "a"],
+        ["r", "a", "a", "k"]
+      ],
+      "words": [
+        {
+          "id": "oak_1", "path": [[6,2], [5,2], [4,2]]
+        },
+        {
+          "id": "oak_2", "path": [[6,2], [6,1], [6,0]]
+        },
+        {
+          "id": "acacia_1", "path": [[6,1], [5,1], [4,1], [4,0], [3,0], [2,0]]
+        },
+        {
+          "id": "acacia_2", "path": [[5,2], [5,1], [4,1], [4,0], [3,0], [2,0]]
+        },
+        {
+          "id": "beech", "path": [[3,3], [2,3], [1,3], [0,3], [0,2]]
+        },
+        {
+          "id": "willow", "path": [[2,2], [1,2], [1,1], [0,1], [0,0], [1,0]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Very important tree species!"
+  ]
+}

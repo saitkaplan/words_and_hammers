@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000001,
+      "type": "main",
+      "title": "People I",
+      "subtitle": "Human Names",
+      "description": "You must find the names of people hidden in the section.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 1,
+      "is_first": true,
+      "first_tier_exp": null,
+      "dev_note": "Aşama I: 4x6 | Temel Aşama",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["e", "f", "X", "e"],
+        ["A", "L", "E", "t"],
+        ["s", "e", "D", "s"],
+        ["j", "c", "R", "a"],
+        ["D", "W", "A", "u"],
+        ["E", "x", "a", "r"]
+      ],
+      "words": [
+        {
+          "id": "edward", "path": [[5,0], [4,0], [4,1], [4,2], [3,2], [2,2]]
+        },
+        {
+          "id": "alex", "path": [[1,0], [1,1], [1,2], [0,2]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "Common human names!",
+    "Male names!"
+  ]
+}

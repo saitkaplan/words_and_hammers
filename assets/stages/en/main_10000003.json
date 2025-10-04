@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "primary": {
+      "id": 10000003,
+      "type": "main",
+      "title": "Cities I",
+      "subtitle": "City Names",
+      "description": "You must find the names of city hidden in the section.",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 1,
+      "is_first": false,
+      "first_tier_exp": null,
+      "dev_note": "Aşama I: 4x6 | Temel Aşama",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["T", "R", "l", "i"],
+        ["E", "O", "I", "T"],
+        ["D", "h", "O", "N"],
+        ["e", "S", "T", "A"],
+        ["r", "O", "E", "S"],
+        ["f", "B", "M", "j"]
+      ],
+      "words": [
+        {
+          "id": "boston", "path": [[5,1], [4,1], [3,1], [3,2], [2,2], [2,3]]
+        },
+        {
+          "id": "mesa", "path": [[5,2], [4,2], [4,3], [3,3]]
+        },
+        {
+          "id": "detroit", "path": [[2,0], [1,0], [0,0], [0,1], [1,1], [1,2], [1,3]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "American cities are here!"
+  ]
+}
