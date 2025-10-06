@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:words_and_hammers/pages/level_page.dart';
-import 'package:words_and_hammers/services/data_manager.dart';
+import 'package:words_and_hammers/backops/language_manager.dart';
+import 'package:words_and_hammers/backops/translations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,9 +17,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late AnimationController _fadeController;
   late AnimationController _slideController;
   late AnimationController _formAnimationController;
+  late AnimationController _textTransitionController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
   late Animation<double> _formOpacityAnimation;
+  late Animation<double> _textOpacityAnimation;
 
   bool _isLoginMode = true;
   final _formKey = GlobalKey<FormState>();
@@ -28,6 +31,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   final _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  bool _rememberMe = false;
+  bool _autoLogin = false;
 
   @override
   void initState() {
@@ -44,6 +49,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
+    _textTransitionController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
     );
@@ -57,9 +66,29 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         curve: Curves.easeInOut,
       ),
     );
+    _textOpacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _textTransitionController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    // Dil yöneticisini başlat
+    _initializeLanguageManager();
+
     _fadeController.forward();
     _slideController.forward();
     _formAnimationController.forward();
+    _textTransitionController.forward();
+  }
+
+  void _initializeLanguageManager() async {
+    await LanguageManager.instance.loadLanguage();
+    LanguageManager.instance.onLanguageChanged = (languageCode) {
+      _textTransitionController.reset();
+      _textTransitionController.forward();
+      setState(() {});
+    };
   }
 
   @override
@@ -67,6 +96,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     _fadeController.dispose();
     _slideController.dispose();
     _formAnimationController.dispose();
+    _textTransitionController.dispose();
     _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -98,6 +128,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   void _onAppleLogin() {
     _showFeatureNotAvailableDialog();
+  }
+
+  void _onGuestLogin() {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => const LevelPage()));
   }
 
   void _showFeatureNotAvailableDialog() {
@@ -139,7 +175,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         ),
                         SizedBox(width: screenWidth * 0.01),
                         Text(
-                          "Geliştiriliyor",
+                          Translations.getCurrent('under_development'),
                           style: TextStyle(
                             fontSize: screenWidth * 0.055,
                             fontWeight: FontWeight.bold,
@@ -158,7 +194,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                     SizedBox(height: screenHeight * 0.02),
                     Text(
-                      "Bu özellik henüz geliştirilme aşamasında!",
+                      Translations.getCurrent('feature_not_available'),
                       style: TextStyle(
                         fontSize: screenWidth * 0.045,
                         fontWeight: FontWeight.w500,
@@ -169,7 +205,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                     SizedBox(height: screenHeight * 0.02),
                     Text(
-                      "Lütfen şimdilik oyunu deneyimlemek için misafir girişini kullanabilirsiniz!",
+                      Translations.getCurrent('use_guest_login'),
                       style: TextStyle(
                         fontSize: screenWidth * 0.04,
                         color: Colors.black87,
@@ -198,7 +234,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        'Anladım!',
+                        Translations.getCurrent('understood'),
                         style: TextStyle(
                           fontSize: screenWidth * 0.05,
                           color: Colors.black87,
@@ -215,56 +251,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         );
       },
     );
-  }
-
-  void _onGuestLogin() async {
-    try {
-      // Loading göster
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(child: CircularProgressIndicator()),
-      );
-
-      // Oyuncu verilerini kontrol et
-      final playerDataManager = PlayerDataManager();
-      PlayerData? playerData = await playerDataManager.loadPlayerData();
-
-      // Eğer veri yoksa yeni oluştur
-      if (playerData == null) {
-        playerData = await playerDataManager.createNewPlayerData(isGuest: true);
-        print('Yeni misafir oyuncu oluşturuldu: ${playerData.playerId}');
-      } else {
-        print('Mevcut oyuncu verisi yüklendi: ${playerData.playerId}');
-      }
-
-      // Loading'i kapat
-      if (mounted) {
-        Navigator.of(context).pop();
-      }
-
-      // Oyun sayfasına git
-      if (mounted) {
-        Navigator.of(
-          context,
-        ).push(MaterialPageRoute(builder: (_) => const LevelPage()));
-      }
-    } catch (e) {
-      // Loading'i kapat
-      if (mounted) {
-        Navigator.of(context).pop();
-      }
-
-      // Hata göster
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Giriş yapılırken hata oluştu: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
   }
 
   @override
@@ -297,455 +283,53 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ],
               ),
             ),
-            child: SafeArea(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
-                child: Column(
-                  children: [
-                    SizedBox(height: screenHeight * 0.05),
-                    // Üst Bilgi Kısmı
-                    FadeTransition(
-                      opacity: _fadeAnimation,
-                      child: SlideTransition(
-                        position: _slideAnimation,
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              "assets/images/logos/wnh_banner.png",
-                              width: screenWidth * 0.75,
-                            ),
-                            SizedBox(height: screenHeight * 0.02),
-                            Text(
-                              "Words & Hammers",
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.08,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                letterSpacing: 1.2,
-                              ),
-                              textAlign: TextAlign.center,
-                              textScaler: const TextScaler.linear(1),
-                            ),
-                            SizedBox(height: screenHeight * 0.02),
-                            Text(
-                              "Muhteşem bir yolculuğa yelken aç!\n\nAma öncelikle bu yolculukta seni ve verilerini korumamız için giriş yapman gerekmekte!",
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.04,
-                                color: Colors.blueGrey.shade300,
-                                letterSpacing: 0.5,
-                              ),
-                              textAlign: TextAlign.center,
-                              textScaler: const TextScaler.linear(1),
-                            ),
-                          ],
-                        ),
-                      ),
+            child: Stack(
+              children: [
+                SafeArea(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.08,
                     ),
-                    SizedBox(height: screenHeight * 0.06),
-                    // Login/Register Bölgesi
-                    FadeTransition(
-                      opacity: _fadeAnimation,
-                      child: SlideTransition(
-                        position: _slideAnimation,
-                        child: Container(
-                          padding: EdgeInsets.all(screenWidth * 0.06),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.2),
-                              width: 1,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.3),
-                                blurRadius: 20,
-                                offset: const Offset(0, 10),
-                              ),
-                            ],
-                          ),
-                          child: Form(
-                            key: _formKey,
+                    child: Column(
+                      children: [
+                        SizedBox(height: screenHeight * 0.05),
+                        // Üst Bilgi Kısmı
+                        FadeTransition(
+                          opacity: _fadeAnimation,
+                          child: SlideTransition(
+                            position: _slideAnimation,
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                // Mode Toggle
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: _toggleMode,
-                                        child: AnimatedContainer(
-                                          duration: const Duration(
-                                            milliseconds: 300,
-                                          ),
-                                          curve: Curves.easeInOut,
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: screenHeight * 0.015,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: _isLoginMode
-                                                ? Colors.green.withValues(
-                                                    alpha: 0.8,
-                                                  )
-                                                : Colors.transparent,
-                                            borderRadius: BorderRadius.circular(
-                                              10,
-                                            ),
-                                          ),
-                                          child: Text(
-                                            "Giriş Yap",
-                                            style: TextStyle(
-                                              fontSize: screenWidth * 0.045,
-                                              fontWeight: FontWeight.bold,
-                                              color: _isLoginMode
-                                                  ? Colors.white
-                                                  : Colors.blueGrey.shade300,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                            textScaler: const TextScaler.linear(
-                                              1,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: screenWidth * 0.02),
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: _toggleMode,
-                                        child: AnimatedContainer(
-                                          duration: const Duration(
-                                            milliseconds: 300,
-                                          ),
-                                          curve: Curves.easeInOut,
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: screenHeight * 0.015,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: !_isLoginMode
-                                                ? Colors.green.withValues(
-                                                    alpha: 0.8,
-                                                  )
-                                                : Colors.transparent,
-                                            borderRadius: BorderRadius.circular(
-                                              10,
-                                            ),
-                                          ),
-                                          child: Text(
-                                            "Kayıt Ol",
-                                            style: TextStyle(
-                                              fontSize: screenWidth * 0.045,
-                                              fontWeight: FontWeight.bold,
-                                              color: !_isLoginMode
-                                                  ? Colors.white
-                                                  : Colors.blueGrey.shade300,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                            textScaler: const TextScaler.linear(
-                                              1,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: screenHeight * 0.03),
-                                // Username Field (only for register)
-                                AnimatedSize(
-                                  duration: const Duration(milliseconds: 400),
-                                  curve: Curves.easeInOut,
-                                  child: !_isLoginMode
-                                      ? FadeTransition(
-                                          opacity: _formOpacityAnimation,
-                                          child: SlideTransition(
-                                            position:
-                                                Tween<Offset>(
-                                                  begin: const Offset(-0.2, 0),
-                                                  end: Offset.zero,
-                                                ).animate(
-                                                  CurvedAnimation(
-                                                    parent:
-                                                        _formAnimationController,
-                                                    curve: Curves.easeOutCubic,
-                                                  ),
-                                                ),
-                                            child: Column(
-                                              children: [
-                                                _buildTextField(
-                                                  controller:
-                                                      _usernameController,
-                                                  label: "Kullanıcı Adı",
-                                                  icon: Icons.person_outline,
-                                                  validator: (value) {
-                                                    if (value == null ||
-                                                        value.isEmpty) {
-                                                      return 'Kullanıcı adı gerekli';
-                                                    }
-                                                    if (value.length < 3) {
-                                                      return 'En az 3 karakter olmalı';
-                                                    }
-                                                    return null;
-                                                  },
-                                                ),
-                                                SizedBox(
-                                                  height: screenHeight * 0.02,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      : const SizedBox.shrink(),
-                                ),
-                                // Email Field
-                                _buildTextField(
-                                  controller: _emailController,
-                                  label: "E-posta",
-                                  icon: Icons.email_outlined,
-                                  keyboardType: TextInputType.emailAddress,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'E-posta gerekli';
-                                    }
-                                    if (!value.contains('@')) {
-                                      return 'Geçerli bir e-posta girin';
-                                    }
-                                    return null;
-                                  },
+                                Image.asset(
+                                  "assets/images/logos/wnh_banner.png",
+                                  width: screenWidth * 0.75,
                                 ),
                                 SizedBox(height: screenHeight * 0.02),
-                                // Password Field
-                                _buildTextField(
-                                  controller: _passwordController,
-                                  label: "Şifre",
-                                  icon: Icons.lock_outline,
-                                  obscureText: _obscurePassword,
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      _obscurePassword
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
-                                      color: Colors.blueGrey.shade300,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        _obscurePassword = !_obscurePassword;
-                                      });
-                                    },
-                                  ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Şifre gerekli';
-                                    }
-                                    if (value.length < 6) {
-                                      return 'En az 6 karakter olmalı';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                // Confirm Password Field (only for register)
-                                AnimatedSize(
-                                  duration: const Duration(milliseconds: 400),
-                                  curve: Curves.easeInOut,
-                                  child: !_isLoginMode
-                                      ? FadeTransition(
-                                          opacity: _formOpacityAnimation,
-                                          child: SlideTransition(
-                                            position:
-                                                Tween<Offset>(
-                                                  begin: const Offset(-0.2, 0),
-                                                  end: Offset.zero,
-                                                ).animate(
-                                                  CurvedAnimation(
-                                                    parent:
-                                                        _formAnimationController,
-                                                    curve: Curves.easeOutCubic,
-                                                  ),
-                                                ),
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                  height: screenHeight * 0.02,
-                                                ),
-                                                _buildTextField(
-                                                  controller:
-                                                      _confirmPasswordController,
-                                                  label: "Şifre Tekrar",
-                                                  icon: Icons.lock_outline,
-                                                  obscureText:
-                                                      _obscureConfirmPassword,
-                                                  suffixIcon: IconButton(
-                                                    icon: Icon(
-                                                      _obscureConfirmPassword
-                                                          ? Icons.visibility_off
-                                                          : Icons.visibility,
-                                                      color: Colors
-                                                          .blueGrey
-                                                          .shade300,
-                                                    ),
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        _obscureConfirmPassword =
-                                                            !_obscureConfirmPassword;
-                                                      });
-                                                    },
-                                                  ),
-                                                  validator: (value) {
-                                                    if (value == null ||
-                                                        value.isEmpty) {
-                                                      return 'Şifre tekrarı gerekli';
-                                                    }
-                                                    if (value !=
-                                                        _passwordController
-                                                            .text) {
-                                                      return 'Şifreler eşleşmiyor';
-                                                    }
-                                                    return null;
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      : const SizedBox.shrink(),
-                                ),
-                                SizedBox(height: screenHeight * 0.03),
-                                // Login/Register Button
-                                AnimatedSwitcher(
-                                  duration: const Duration(milliseconds: 300),
-                                  transitionBuilder:
-                                      (
-                                        Widget child,
-                                        Animation<double> animation,
-                                      ) {
-                                        return FadeTransition(
-                                          opacity: animation,
-                                          child: SlideTransition(
-                                            position: Tween<Offset>(
-                                              begin: const Offset(0, 0.1),
-                                              end: Offset.zero,
-                                            ).animate(animation),
-                                            child: child,
-                                          ),
-                                        );
-                                      },
-                                  child: SizedBox(
-                                    key: ValueKey(_isLoginMode),
-                                    width: double.infinity,
-                                    child: ElevatedButton(
-                                      onPressed: _isLoginMode
-                                          ? _onLogin
-                                          : _onRegister,
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.green,
-                                        foregroundColor: Colors.white,
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: screenHeight * 0.02,
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            12,
-                                          ),
-                                        ),
-                                        elevation: 8,
-                                        shadowColor: Colors.green.withValues(
-                                          alpha: 0.3,
-                                        ),
-                                      ),
-                                      child: Text(
-                                        _isLoginMode ? "Giriş Yap" : "Kayıt Ol",
-                                        style: TextStyle(
-                                          fontSize: screenWidth * 0.05,
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.5,
-                                        ),
-                                        textScaler: const TextScaler.linear(1),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: screenHeight * 0.02),
-                                // Divider
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Divider(
-                                        color: Colors.blueGrey.shade400,
-                                        thickness: 1,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: screenWidth * 0.04,
-                                      ),
-                                      child: Text(
-                                        "veya",
-                                        style: TextStyle(
-                                          color: Colors.blueGrey.shade300,
-                                          fontSize: screenWidth * 0.035,
-                                        ),
-                                        textScaler: const TextScaler.linear(1),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Divider(
-                                        color: Colors.blueGrey.shade400,
-                                        thickness: 1,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: screenHeight * 0.02),
-                                // Social Login Buttons
-                                Row(
-                                  children: [
-                                    // Google Login Button
-                                    Expanded(
-                                      child: _buildSocialButton(
-                                        icon: Icons.g_mobiledata,
-                                        label: "Google",
-                                        onTap: _onGoogleLogin,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                    // Apple Login Button (only on iOS)
-                                    if (Platform.isIOS) ...[
-                                      SizedBox(width: screenWidth * 0.03),
-                                      Expanded(
-                                        child: _buildSocialButton(
-                                          icon: Icons.apple,
-                                          label: "Apple",
-                                          onTap: _onAppleLogin,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ],
-                                ),
-                                SizedBox(height: screenHeight * 0.02),
-                                // Guest Login Button
-                                OutlinedButton(
-                                  onPressed: _onGuestLogin,
-                                  style: OutlinedButton.styleFrom(
-                                    foregroundColor: Colors.blueGrey.shade300,
-                                    side: BorderSide(
-                                      color: Colors.blueGrey.shade400,
-                                      width: 1.5,
-                                    ),
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: screenHeight * 0.015,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
+                                FadeTransition(
+                                  opacity: _textOpacityAnimation,
                                   child: Text(
-                                    "Misafir Olarak Devam Et",
+                                    Translations.getCurrent('app_title'),
+                                    style: TextStyle(
+                                      fontSize: screenWidth * 0.08,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      letterSpacing: 1.2,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    textScaler: const TextScaler.linear(1),
+                                  ),
+                                ),
+                                SizedBox(height: screenHeight * 0.02),
+                                FadeTransition(
+                                  opacity: _textOpacityAnimation,
+                                  child: Text(
+                                    Translations.getCurrent('app_subtitle'),
                                     style: TextStyle(
                                       fontSize: screenWidth * 0.04,
-                                      fontWeight: FontWeight.w600,
+                                      color: Colors.blueGrey.shade300,
+                                      letterSpacing: 0.5,
                                     ),
+                                    textAlign: TextAlign.center,
                                     textScaler: const TextScaler.linear(1),
                                   ),
                                 ),
@@ -753,27 +337,573 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    SizedBox(height: screenHeight * 0.03),
-                    // Version Info
-                    FadeTransition(
-                      opacity: _fadeAnimation,
-                      child: Text(
-                        "Prototip 2 (Ver: 1.0.0)",
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.03,
-                          color: Colors.blueGrey.shade400,
-                          letterSpacing: 0.5,
+                        SizedBox(height: screenHeight * 0.06),
+                        // Login/Register Bölgesi
+                        FadeTransition(
+                          opacity: _fadeAnimation,
+                          child: SlideTransition(
+                            position: _slideAnimation,
+                            child: Container(
+                              padding: EdgeInsets.all(screenWidth * 0.06),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: Colors.white.withValues(alpha: 0.2),
+                                  width: 1,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.3),
+                                    blurRadius: 20,
+                                    offset: const Offset(0, 10),
+                                  ),
+                                ],
+                              ),
+                              child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    // Mode Toggle
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: GestureDetector(
+                                            onTap: _toggleMode,
+                                            child: AnimatedContainer(
+                                              duration: const Duration(
+                                                milliseconds: 300,
+                                              ),
+                                              curve: Curves.easeInOut,
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: screenHeight * 0.015,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: _isLoginMode
+                                                    ? Colors.green.withValues(
+                                                        alpha: 0.8,
+                                                      )
+                                                    : Colors.transparent,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: FadeTransition(
+                                                opacity: _textOpacityAnimation,
+                                                child: Text(
+                                                  Translations.getCurrent(
+                                                    'login',
+                                                  ),
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        screenWidth * 0.045,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: _isLoginMode
+                                                        ? Colors.white
+                                                        : Colors
+                                                              .blueGrey
+                                                              .shade300,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                  textScaler:
+                                                      const TextScaler.linear(
+                                                        1,
+                                                      ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: screenWidth * 0.02),
+                                        Expanded(
+                                          child: GestureDetector(
+                                            onTap: _toggleMode,
+                                            child: AnimatedContainer(
+                                              duration: const Duration(
+                                                milliseconds: 300,
+                                              ),
+                                              curve: Curves.easeInOut,
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: screenHeight * 0.015,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: !_isLoginMode
+                                                    ? Colors.green.withValues(
+                                                        alpha: 0.8,
+                                                      )
+                                                    : Colors.transparent,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: FadeTransition(
+                                                opacity: _textOpacityAnimation,
+                                                child: Text(
+                                                  Translations.getCurrent(
+                                                    'register',
+                                                  ),
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        screenWidth * 0.045,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: !_isLoginMode
+                                                        ? Colors.white
+                                                        : Colors
+                                                              .blueGrey
+                                                              .shade300,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                  textScaler:
+                                                      const TextScaler.linear(
+                                                        1,
+                                                      ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: screenHeight * 0.03),
+                                    // Username Field (only for register)
+                                    AnimatedSize(
+                                      duration: const Duration(
+                                        milliseconds: 400,
+                                      ),
+                                      curve: Curves.easeInOut,
+                                      child: !_isLoginMode
+                                          ? FadeTransition(
+                                              opacity: _formOpacityAnimation,
+                                              child: SlideTransition(
+                                                position:
+                                                    Tween<Offset>(
+                                                      begin: const Offset(
+                                                        -0.2,
+                                                        0,
+                                                      ),
+                                                      end: Offset.zero,
+                                                    ).animate(
+                                                      CurvedAnimation(
+                                                        parent:
+                                                            _formAnimationController,
+                                                        curve:
+                                                            Curves.easeOutCubic,
+                                                      ),
+                                                    ),
+                                                child: Column(
+                                                  children: [
+                                                    _buildTextField(
+                                                      controller:
+                                                          _usernameController,
+                                                      label:
+                                                          Translations.getCurrent(
+                                                            'username',
+                                                          ),
+                                                      icon:
+                                                          Icons.person_outline,
+                                                      validator: (value) {
+                                                        if (value == null ||
+                                                            value.isEmpty) {
+                                                          return Translations.getCurrent(
+                                                            'username_required',
+                                                          );
+                                                        }
+                                                        if (value.length < 3) {
+                                                          return Translations.getCurrent(
+                                                            'username_min_length',
+                                                          );
+                                                        }
+                                                        return null;
+                                                      },
+                                                    ),
+                                                    SizedBox(
+                                                      height:
+                                                          screenHeight * 0.02,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          : const SizedBox.shrink(),
+                                    ),
+                                    // Email Field
+                                    _buildTextField(
+                                      controller: _emailController,
+                                      label: Translations.getCurrent('email'),
+                                      icon: Icons.email_outlined,
+                                      keyboardType: TextInputType.emailAddress,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return Translations.getCurrent(
+                                            'email_required',
+                                          );
+                                        }
+                                        if (!value.contains('@')) {
+                                          return Translations.getCurrent(
+                                            'email_invalid',
+                                          );
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    SizedBox(height: screenHeight * 0.02),
+                                    // Password Field
+                                    _buildTextField(
+                                      controller: _passwordController,
+                                      label: Translations.getCurrent(
+                                        'password',
+                                      ),
+                                      icon: Icons.lock_outline,
+                                      obscureText: _obscurePassword,
+                                      suffixIcon: IconButton(
+                                        icon: Icon(
+                                          _obscurePassword
+                                              ? Icons.visibility_off
+                                              : Icons.visibility,
+                                          color: Colors.blueGrey.shade300,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _obscurePassword =
+                                                !_obscurePassword;
+                                          });
+                                        },
+                                      ),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return Translations.getCurrent(
+                                            'password_required',
+                                          );
+                                        }
+                                        if (value.length < 6) {
+                                          return Translations.getCurrent(
+                                            'password_min_length',
+                                          );
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    // Confirm Password Field (only for register)
+                                    AnimatedSize(
+                                      duration: const Duration(
+                                        milliseconds: 400,
+                                      ),
+                                      curve: Curves.easeInOut,
+                                      child: !_isLoginMode
+                                          ? FadeTransition(
+                                              opacity: _formOpacityAnimation,
+                                              child: SlideTransition(
+                                                position:
+                                                    Tween<Offset>(
+                                                      begin: const Offset(
+                                                        -0.2,
+                                                        0,
+                                                      ),
+                                                      end: Offset.zero,
+                                                    ).animate(
+                                                      CurvedAnimation(
+                                                        parent:
+                                                            _formAnimationController,
+                                                        curve:
+                                                            Curves.easeOutCubic,
+                                                      ),
+                                                    ),
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(
+                                                      height:
+                                                          screenHeight * 0.02,
+                                                    ),
+                                                    _buildTextField(
+                                                      controller:
+                                                          _confirmPasswordController,
+                                                      label:
+                                                          Translations.getCurrent(
+                                                            'confirm_password',
+                                                          ),
+                                                      icon: Icons.lock_outline,
+                                                      obscureText:
+                                                          _obscureConfirmPassword,
+                                                      suffixIcon: IconButton(
+                                                        icon: Icon(
+                                                          _obscureConfirmPassword
+                                                              ? Icons
+                                                                    .visibility_off
+                                                              : Icons
+                                                                    .visibility,
+                                                          color: Colors
+                                                              .blueGrey
+                                                              .shade300,
+                                                        ),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            _obscureConfirmPassword =
+                                                                !_obscureConfirmPassword;
+                                                          });
+                                                        },
+                                                      ),
+                                                      validator: (value) {
+                                                        if (value == null ||
+                                                            value.isEmpty) {
+                                                          return Translations.getCurrent(
+                                                            'confirm_password_required',
+                                                          );
+                                                        }
+                                                        if (value !=
+                                                            _passwordController
+                                                                .text) {
+                                                          return Translations.getCurrent(
+                                                            'passwords_not_match',
+                                                          );
+                                                        }
+                                                        return null;
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          : const SizedBox.shrink(),
+                                    ),
+                                    SizedBox(height: screenHeight * 0.02),
+                                    // Remember Me & Auto Login Options
+                                    Row(
+                                      children: [
+                                        // Remember Me Toggle
+                                        Expanded(
+                                          child: _buildToggleOption(
+                                            label: Translations.getCurrent(
+                                              'remember_me',
+                                            ),
+                                            value: _rememberMe,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _rememberMe = value;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(width: screenWidth * 0.02),
+                                        // Auto Login Toggle
+                                        Expanded(
+                                          child: _buildToggleOption(
+                                            label: Translations.getCurrent(
+                                              'auto_login',
+                                            ),
+                                            value: _autoLogin,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _autoLogin = value;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: screenHeight * 0.02),
+                                    SizedBox(height: screenHeight * 0.01),
+                                    // Login/Register Button
+                                    AnimatedSwitcher(
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      transitionBuilder:
+                                          (
+                                            Widget child,
+                                            Animation<double> animation,
+                                          ) {
+                                            return FadeTransition(
+                                              opacity: animation,
+                                              child: SlideTransition(
+                                                position: Tween<Offset>(
+                                                  begin: const Offset(0, 0.1),
+                                                  end: Offset.zero,
+                                                ).animate(animation),
+                                                child: child,
+                                              ),
+                                            );
+                                          },
+                                      child: SizedBox(
+                                        key: ValueKey(_isLoginMode),
+                                        width: double.infinity,
+                                        child: ElevatedButton(
+                                          onPressed: _isLoginMode
+                                              ? _onLogin
+                                              : _onRegister,
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green,
+                                            foregroundColor: Colors.white,
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: screenHeight * 0.02,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                            elevation: 8,
+                                            shadowColor: Colors.green
+                                                .withValues(alpha: 0.3),
+                                          ),
+                                          child: FadeTransition(
+                                            opacity: _textOpacityAnimation,
+                                            child: Text(
+                                              _isLoginMode
+                                                  ? Translations.getCurrent(
+                                                      'login',
+                                                    )
+                                                  : Translations.getCurrent(
+                                                      'register',
+                                                    ),
+                                              style: TextStyle(
+                                                fontSize: screenWidth * 0.05,
+                                                fontWeight: FontWeight.bold,
+                                                letterSpacing: 0.5,
+                                              ),
+                                              textScaler:
+                                                  const TextScaler.linear(1),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: screenHeight * 0.02),
+                                    // Divider
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Divider(
+                                            color: Colors.blueGrey.shade400,
+                                            thickness: 1,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: screenWidth * 0.04,
+                                          ),
+                                          child: FadeTransition(
+                                            opacity: _textOpacityAnimation,
+                                            child: Text(
+                                              Translations.getCurrent('or'),
+                                              style: TextStyle(
+                                                color: Colors.blueGrey.shade300,
+                                                fontSize: screenWidth * 0.035,
+                                              ),
+                                              textScaler:
+                                                  const TextScaler.linear(1),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Divider(
+                                            color: Colors.blueGrey.shade400,
+                                            thickness: 1,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: screenHeight * 0.02),
+                                    // Social Login Buttons
+                                    Row(
+                                      children: [
+                                        // Google Login Button
+                                        Expanded(
+                                          child: _buildSocialButton(
+                                            icon: Icons.g_mobiledata,
+                                            label: Translations.getCurrent(
+                                              'google',
+                                            ),
+                                            onTap: _onGoogleLogin,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                        // Apple Login Button (only on iOS)
+                                        if (Platform.isIOS) ...[
+                                          SizedBox(width: screenWidth * 0.03),
+                                          Expanded(
+                                            child: _buildSocialButton(
+                                              icon: Icons.apple,
+                                              label: Translations.getCurrent(
+                                                'apple',
+                                              ),
+                                              onTap: _onAppleLogin,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ],
+                                      ],
+                                    ),
+                                    SizedBox(height: screenHeight * 0.02),
+                                    // Guest Login Button
+                                    OutlinedButton(
+                                      onPressed: _onGuestLogin,
+                                      style: OutlinedButton.styleFrom(
+                                        foregroundColor:
+                                            Colors.blueGrey.shade300,
+                                        side: BorderSide(
+                                          color: Colors.blueGrey.shade400,
+                                          width: 1.5,
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: screenHeight * 0.015,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                        ),
+                                      ),
+                                      child: FadeTransition(
+                                        opacity: _textOpacityAnimation,
+                                        child: Text(
+                                          Translations.getCurrent(
+                                            'guest_continue',
+                                          ),
+                                          style: TextStyle(
+                                            fontSize: screenWidth * 0.04,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          textScaler: const TextScaler.linear(
+                                            1,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                        textAlign: TextAlign.center,
-                        textScaler: const TextScaler.linear(1),
-                      ),
+                        SizedBox(height: screenHeight * 0.03),
+                        // Version Info
+                        FadeTransition(
+                          opacity: _fadeAnimation,
+                          child: FadeTransition(
+                            opacity: _textOpacityAnimation,
+                            child: Text(
+                              Translations.getCurrent('version'),
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.03,
+                                color: Colors.blueGrey.shade400,
+                                letterSpacing: 0.5,
+                              ),
+                              textAlign: TextAlign.center,
+                              textScaler: const TextScaler.linear(1),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: screenHeight * 0.02),
+                      ],
                     ),
-                    SizedBox(height: screenHeight * 0.02),
-                  ],
+                  ),
                 ),
-              ),
+                // Sabit Dil Seçim Butonu
+                Positioned(
+                  top: screenHeight * 0.05,
+                  right: screenWidth * 0.08,
+                  child: _buildLanguageSelector(screenWidth, screenHeight),
+                ),
+              ],
             ),
           ),
         ),
@@ -876,6 +1006,195 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             textScaler: const TextScaler.linear(1),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildToggleOption({
+    required String label,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
+    return GestureDetector(
+      onTap: () => onChanged(!value),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          vertical: screenHeight * 0.008,
+          horizontal: screenWidth * 0.02,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: value
+                ? Colors.green.withValues(alpha: 0.6)
+                : Colors.blueGrey.shade400.withValues(alpha: 0.3),
+            width: 1,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeInOut,
+              width: screenWidth * 0.045,
+              height: screenWidth * 0.045,
+              decoration: BoxDecoration(
+                color: value ? Colors.green : Colors.transparent,
+                borderRadius: BorderRadius.circular(screenWidth * 0.0225),
+                border: Border.all(
+                  color: value ? Colors.green : Colors.blueGrey.shade400,
+                  width: 1.5,
+                ),
+              ),
+              child: value
+                  ? Icon(
+                      Icons.check,
+                      color: Colors.white,
+                      size: screenWidth * 0.025,
+                    )
+                  : null,
+            ),
+            SizedBox(width: screenWidth * 0.015),
+            Flexible(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: screenWidth * 0.028,
+                  fontWeight: FontWeight.w500,
+                  color: value
+                      ? Colors.green.shade300
+                      : Colors.blueGrey.shade300,
+                ),
+                textAlign: TextAlign.center,
+                textScaler: const TextScaler.linear(1),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLanguageSelector(double screenWidth, double screenHeight) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.blueGrey.shade800.withValues(alpha: 0.9),
+        borderRadius: BorderRadius.circular(25),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.3),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.3),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: PopupMenuButton<String>(
+        icon: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.language,
+              color: Colors.white,
+              size: screenWidth * 0.045,
+            ),
+            SizedBox(width: screenWidth * 0.015),
+            Text(
+              LanguageManager.instance.currentLanguage.toUpperCase(),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: screenWidth * 0.032,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.5,
+              ),
+            ),
+            SizedBox(width: screenWidth * 0.008),
+            Icon(
+              Icons.arrow_drop_down,
+              color: Colors.white,
+              size: screenWidth * 0.035,
+            ),
+          ],
+        ),
+        onSelected: (String languageCode) async {
+          await LanguageManager.instance.changeLanguage(languageCode);
+        },
+        itemBuilder: (BuildContext context) {
+          return LanguageManager.supportedLanguages.keys.map((
+            String languageCode,
+          ) {
+            final isSelected =
+                languageCode == LanguageManager.instance.currentLanguage;
+            return PopupMenuItem<String>(
+              value: languageCode,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: screenHeight * 0.008,
+                  horizontal: screenWidth * 0.02,
+                ),
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? Colors.green.withValues(alpha: 0.1)
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: screenWidth * 0.05,
+                      height: screenWidth * 0.05,
+                      decoration: BoxDecoration(
+                        color: isSelected ? Colors.green : Colors.transparent,
+                        borderRadius: BorderRadius.circular(
+                          screenWidth * 0.025,
+                        ),
+                        border: Border.all(
+                          color: isSelected
+                              ? Colors.green
+                              : Colors.blueGrey.shade400,
+                          width: 2,
+                        ),
+                      ),
+                      child: isSelected
+                          ? Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: screenWidth * 0.025,
+                            )
+                          : null,
+                    ),
+                    SizedBox(width: screenWidth * 0.02),
+                    Text(
+                      LanguageManager.instance.getLanguageName(languageCode),
+                      style: TextStyle(
+                        color: isSelected
+                            ? Colors.green.shade300
+                            : Colors.blueGrey.shade700,
+                        fontWeight: isSelected
+                            ? FontWeight.bold
+                            : FontWeight.w500,
+                        fontSize: screenWidth * 0.035,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }).toList();
+        },
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        color: Colors.blueGrey.shade900.withValues(alpha: 0.95),
+        elevation: 12,
+        shadowColor: Colors.black.withValues(alpha: 0.4),
       ),
     );
   }

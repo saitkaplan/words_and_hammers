@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "primary": {
+      "id": 0,
+      "type": "main",
+      "title": "",
+      "subtitle": "",
+      "description": "",
+      "max_score": null
+    },
+    "secondary": {
+      "tier": 2,
+      "is_first": null,
+      "first_tier_exp": null,
+      "dev_note": "Aşama II: 4x8 | Çoklulaştırılmış İçiçe Kelimeler",
+      "version": 6
+    },
+    "rules": {
+      "is_layered": null,
+      "limit_situation": {
+        "has_time_limit": null,
+        "time_limit": null
+      },
+      "ext_situation": {
+        "has_hidden_extension": null,
+        "extension_conditions": {
+          "trigger_word_id": null,
+          "trigger_score": null,
+          "initial_size": null,
+          "reveal_size": null
+        }
+      }
+    }
+  },
+  "layers": {
+    "1": {
+      "grid": [
+        ["", "", "", ""],
+        ["", "", "", ""]
+      ],
+      "words": [
+        {
+          "id": "", "path": [[0,0], [0,0]]
+        },
+        {
+          "id": "", "path": [[0,0], [0,0]]
+        }
+      ]
+    }
+  },
+  "hints": [
+    "",
+    ""
+  ]
+}
